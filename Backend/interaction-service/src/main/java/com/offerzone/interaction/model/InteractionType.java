@@ -1,4 +1,4 @@
-package main.java.com.offerzone.interaction.model;
+package com.offerzone.interaction.model;
 
 /**
  * Interaction Type Enum - Different types of user interactions

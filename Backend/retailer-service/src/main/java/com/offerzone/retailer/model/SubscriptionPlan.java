@@ -1,4 +1,4 @@
-package main.java.com.offerzone.retailer.model;
+package com.offerzone.retailer.model;
 
 /**
  * Subscription Plan Enum - Different plans for retailers

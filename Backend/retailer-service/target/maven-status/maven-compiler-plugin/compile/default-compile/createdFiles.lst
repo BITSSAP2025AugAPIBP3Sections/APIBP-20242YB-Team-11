@@ -1,4 +1,5 @@
 main/java/com/offerzone/retailer/RetailerServiceApplication.class
 main/java/com/offerzone/retailer/model/SubscriptionPlan.class
 main/java/com/offerzone/retailer/model/Retailer.class
+main/java/com/offerzone/retailer/config/StartupTestingGuide.class
 main/java/com/offerzone/retailer/model/RetailerStatus.class

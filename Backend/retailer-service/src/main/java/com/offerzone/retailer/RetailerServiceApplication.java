@@ -1,4 +1,4 @@
-package main.java.com.offerzone.retailer;
+package com.offerzone.retailer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

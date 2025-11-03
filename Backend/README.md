@@ -1,273 +1,178 @@
-# OfferZone Backend - Microservice Architecture
+# 🚀 OfferZone Simplified Microservice Architecture
 
-## 🚀 Quick Start
+## ✅ Updated Codebase Summary
 
-### Prerequisites
-- Java 17+
-- Maven 3.6+
+Based on your requirements, the codebase has been simplified to contain only these **5 core services**:
 
-### Running Services
-```bash
-# Consumer Service (Port 8081)
-cd consumer-service && mvn spring-boot:run
+### 🏗️ **Core Services Architecture**
 
-# Retailer Service (Port 8082)  
-cd retailer-service && mvn spring-boot:run
-
-# Category Service (Port 8083)
-cd category-service && mvn spring-boot:run
-
-# Offer Service (Port 8084)
-cd offer-service && mvn spring-boot:run
-
-# Interaction Service (Port 8085)
-cd interaction-service && mvn spring-boot:run
 ```
-
-### Build All Services
-```bash
-./start-services.sh
+Backend/
+├── consumer-service/     (Port 8081) - End users
+├── retailer-service/     (Port 8082) - Business owners  
+├── product-service/      (Port 8083) - Products with integrated offers
+├── brand-service/        (Port 8084) - Brands & Shops (combined)
+└── interaction-service/  (Port 8085) - User interactions
 ```
-
-## 📋 Service Overview
-
-| Service | Port | Purpose | Database | Status |
-|---------|------|---------|----------|---------|
-| Consumer | 8081 | End-user management | consumerdb | ✅ Ready |
-| Retailer | 8082 | Business management | retailerdb | ✅ Ready |
-| Category | 8083 | Category management | categorydb | ✅ Ready |
-| Offer | 8084 | Offer management | offerdb | ✅ Ready |
-| Interaction | 8085 | Analytics tracking | interactiondb | ✅ Ready |
-
-## 🗄️ Database Access
-
-| Service | H2 Console | JDBC URL |
-|---------|------------|----------|
-| Consumer | http://localhost:8081/h2-console | `jdbc:h2:mem:consumerdb` |
-| Retailer | http://localhost:8082/h2-console | `jdbc:h2:mem:retailerdb` |
-| Category | http://localhost:8083/h2-console | `jdbc:h2:mem:categorydb` |
-| Offer | http://localhost:8084/h2-console | `jdbc:h2:mem:offerdb` |
-| Interaction | http://localhost:8085/h2-console | `jdbc:h2:mem:interactiondb` |
-
-**Login**: Username: `sa`, Password: (empty)
-
-## 📖 Detailed Documentation
-
-For comprehensive documentation, procedures, and examples, see:
-**[📋 SERVICE_GUIDE.md](./SERVICE_GUIDE.md)**
-
-## 🏗️ Architecture
-
-### Core Services
-| Service | Port | Purpose | Database |
-|---------|------|---------|----------|
-| Consumer Service | 8081 | Manages end-users who browse/redeem offers | H2 (consumerdb) |
-| Retailer Service | 8082 | Manages businesses who create offers | H2 (retailerdb) |
-| Category Service | 8083 | Manages offer categories (Electronics, Food, etc.) | H2 (categorydb) |
-| Offer Service | 8084 | Main service for offer management | H2 (offerdb) |
-| Interaction Service | 8085 | Tracks user actions and analytics | H2 (interactiondb) |
-
-## Data Models
-
-### 1. Consumer Model
-```java
-- id (Long) - Primary Key
-- name (String) - Consumer full name
-- email (String) - Unique email address
-- phone (String) - Contact number
-- address (String) - Delivery address
-- status (ConsumerStatus) - ACTIVE, INACTIVE, SUSPENDED, DELETED
-- createdAt (LocalDateTime)
-- updatedAt (LocalDateTime)
-```
-
-### 2. Retailer Model
-```java
-- id (Long) - Primary Key
-- businessName (String) - Business name
-- email (String) - Unique business email
-- phone (String) - Business contact
-- address (String) - Business address
-- description (String) - Business description
-- status (RetailerStatus) - PENDING, ACTIVE, INACTIVE, SUSPENDED, DELETED
-- subscriptionPlan (SubscriptionPlan) - FREE, BASIC, PREMIUM, ENTERPRISE
-- createdAt (LocalDateTime)
-- updatedAt (LocalDateTime)
-```
-
-### 3. Category Model
-```java
-- id (Long) - Primary Key
-- name (String) - Category name (unique)
-- description (String) - Category description
-- iconUrl (String) - Category icon URL
-- colorCode (String) - Hex color code for UI
-- status (CategoryStatus) - ACTIVE, INACTIVE, DELETED
-- sortOrder (Integer) - Display order
-- createdAt (LocalDateTime)
-- updatedAt (LocalDateTime)
-```
-
-### 4. Offer Model
-```java
-- id (Long) - Primary Key
-- title (String) - Offer title
-- description (String) - Detailed description
-- originalPrice (BigDecimal) - Original price
-- discountedPrice (BigDecimal) - Discounted price
-- discountPercentage (BigDecimal) - Auto-calculated discount %
-- imageUrl (String) - Offer image URL
-- retailerId (Long) - Reference to retailer
-- categoryId (Long) - Reference to category
-- status (OfferStatus) - DRAFT, ACTIVE, PAUSED, EXPIRED, EXHAUSTED, CANCELLED, DELETED
-- validFrom (LocalDateTime) - Offer start date
-- validUntil (LocalDateTime) - Offer end date
-- termsConditions (String) - T&C
-- maxRedemptions (Integer) - Maximum redemptions allowed
-- currentRedemptions (Integer) - Current redemption count
-- createdAt (LocalDateTime)
-- updatedAt (LocalDateTime)
-```
-
-### 5. Interaction Model
-```java
-- id (Long) - Primary Key
-- consumerId (Long) - Reference to consumer
-- offerId (Long) - Reference to offer
-- interactionType (InteractionType) - VIEW, SAVE, UNSAVE, SHARE, REDEEM, CLICK, SEARCH, FILTER
-- interactionData (String) - Additional JSON data
-- deviceInfo (String) - Device/browser info
-- ipAddress (String) - User IP address
-- sessionId (String) - Session identifier
-- createdAt (LocalDateTime)
-```
-
-## Service Independence
-
-### Current Design Benefits:
-1. **Loose Coupling**: Each service manages its own data and business logic
-2. **Independent Deployment**: Services can be deployed separately
-3. **Technology Flexibility**: Each service can use different tech stacks if needed
-4. **Scalability**: Services can be scaled independently based on load
-5. **Fault Isolation**: Failure in one service doesn't affect others
-
-### Inter-Service Communication:
-- **Current**: Services are independent with foreign key references (retailerId, categoryId, etc.)
-- **Future**: Will implement REST APIs, message queues, or event-driven communication
-
-## Getting Started
-
-### Prerequisites
-- Java 17+
-- Maven 3.6+
-- IDE (IntelliJ IDEA, Eclipse, VS Code)
-
-### Running Services
-
-#### Option 1: Run Individual Services
-```bash
-# Consumer Service
-cd Backend/consumer-service
-mvn spring-boot:run
-
-# Retailer Service  
-cd Backend/retailer-service
-mvn spring-boot:run
-
-# Category Service
-cd Backend/category-service
-mvn spring-boot:run
-
-# Offer Service
-cd Backend/offer-service
-mvn spring-boot:run
-
-# Interaction Service
-cd Backend/interaction-service
-mvn spring-boot:run
-```
-
-#### Option 2: Build All Services
-```bash
-# Build all services
-find Backend -name "pom.xml" -execdir mvn clean install \;
-```
-
-### Database Access
-Each service uses H2 in-memory database:
-- **Console URLs**: 
-  - Consumer: http://localhost:8081/h2-console
-  - Retailer: http://localhost:8082/h2-console
-  - Category: http://localhost:8083/h2-console
-  - Offer: http://localhost:8084/h2-console
-  - Interaction: http://localhost:8085/h2-console
-
-## Development Roadmap
-
-### Phase 1: Foundation (Current)
-- ✅ Basic model design
-- ✅ Service structure setup
-- ✅ Database configuration
-
-### Phase 2: Core Implementation (Next)
-- [ ] Repository layers
-- [ ] Service layers  
-- [ ] REST controllers
-- [ ] Basic CRUD operations
-
-### Phase 3: Integration
-- [ ] Service-to-service communication
-- [ ] API Gateway
-- [ ] Service discovery
-- [ ] Configuration management
-
-### Phase 4: Production Ready
-- [ ] Database migration (H2 → PostgreSQL/MySQL)
-- [ ] Containerization (Docker)
-- [ ] Orchestration (Kubernetes)
-- [ ] Monitoring & Logging
-- [ ] Security implementation
-
-## Technology Stack
-
-### Current
-- **Framework**: Spring Boot 3.2.0
-- **Language**: Java 17
-- **Database**: H2 (Development)
-- **Build Tool**: Maven
-- **Validation**: Jakarta Validation
-- **ORM**: Spring Data JPA
-
-### Future Considerations
-- **Database**: PostgreSQL/MySQL
-- **Service Discovery**: Eureka/Consul
-- **API Gateway**: Spring Cloud Gateway/Zuul
-- **Message Queue**: RabbitMQ/Apache Kafka
-- **Caching**: Redis
-- **Monitoring**: Prometheus + Grafana
-- **Logging**: ELK Stack
-
-## Frontend Integration
-
-The backend is designed to be frontend-agnostic:
-- RESTful APIs will be exposed
-- JSON responses for easy consumption
-- CORS configuration for web applications
-- Stateless design for scalability
 
 ---
 
-*This architecture provides a solid foundation for a scalable, maintainable offer management platform that can grow with business needs.*
+## 📊 **Entity Models Overview**
 
----------
+### 1. **Consumer** (Port 8081)
+- **Purpose**: Manages end-users who browse and redeem offers
+- **Database**: `consumerdb`
+- **Key Fields**: name, email, phone, address, status, timestamps
+- **Status**: ACTIVE, INACTIVE, SUSPENDED, DELETED
+
+### 2. **Retailer** (Port 8082)  
+- **Purpose**: Manages business owners who create products/offers
+- **Database**: `retailerdb`
+- **Key Fields**: businessName, ownerName, email, subscriptionPlan, status
+- **Plans**: FREE, BASIC, PREMIUM, ENTERPRISE
+
+### 3. **Product** (Port 8083) - **NEW INTEGRATED MODEL**
+- **Purpose**: Products with **built-in offers** - No separate Offer entity needed
+- **Database**: `productdb`
+- **Key Features**:
+  - Original price + Offer price (integrated)
+  - Automatic discount percentage calculation
+  - Offer validity periods
+  - Stock management
+  - Redemption tracking
+  - Category classification
+  - Brand and Retailer associations
+
+### 4. **Brand** (Port 8084) - **COMBINED ENTITY**
+- **Purpose**: Brands AND Shops in one entity (no separate entities)
+- **Database**: `branddb`
+- **Key Features**:
+  - `BrandType`: BRAND (global) or SHOP (local)
+  - Location details for shops
+  - Brand information for global brands
+  - Rating and verification system
+  - Social media integration
+
+### 5. **Interaction** (Port 8085) - **UPDATED**
+- **Purpose**: Tracks user interactions with products
+- **Database**: `interactiondb`
+- **Updated Fields**: consumerId, **productId** (not offerId), retailerId, brandId
+- **Types**: VIEW, SAVE, REDEEM, CLICK, SEARCH, FILTER
+
+---
+
+## 🗑️ **Removed Services**
+
+- ❌ **category-service** - Categories now handled as string fields in Product
+- ❌ **offer-service** - Offers integrated into Product entity
+
+---
+
+## 🔄 **Key Changes Made**
+
+### **Product Service - New Integrated Model**
+```java
+// Product now contains offer functionality
+@Entity
+public class Product {
+    private BigDecimal originalPrice;
+    private BigDecimal offerPrice;        // Integrated offer
+    private LocalDateTime offerStartDate; // Offer validity
+    private LocalDateTime offerEndDate;
+    private Boolean isOfferActive;
+    private Integer maxRedemptions;
+    private Integer currentRedemptions;
+    
+    // Business methods for offer management
+    public void calculateDiscountPercentage() { ... }
+    public boolean isOfferValid() { ... }
+    public boolean canRedeem() { ... }
+}
+```
+
+### **Brand Service - Combined Brand & Shop**
+```java
+@Entity  
+public class Brand {
+    @Enumerated(EnumType.STRING)
+    private BrandType brandType; // BRAND or SHOP
+    
+    // Brand fields
+    private String name, logoUrl, websiteUrl;
+    
+    // Shop/Location fields  
+    private String address, city, state, zipCode;
+    private String operatingHours;
+    private Double rating;
+}
+```
+
+### **Interaction Service - Updated References**
+```java
+@Entity
+public class Interaction {
+    private Long consumerId;
+    private Long productId;  // Changed from offerId
+    private Long retailerId; // For analytics
+    private Long brandId;    // For analytics
+}
+```
+
+---
+
+## 🚀 **Testing Each Service**
+
+When you run `mvn spring-boot:run` for each service, you'll see:
+
+### **Automatic Testing Guide Display**
+Each service now shows comprehensive testing information including:
+- ✅ H2 Database connection details
+- ✅ All REST API endpoints
+- ✅ Sample JSON for testing
+- ✅ Curl command examples  
+- ✅ Step-by-step testing instructions
+
+### **Service URLs**
+- Consumer Service: http://localhost:8081
+- Retailer Service: http://localhost:8082  
+- Product Service: http://localhost:8083
+- Brand Service: http://localhost:8084
+- Interaction Service: http://localhost:8085
+
+### **H2 Console Access**
+- Consumer: http://localhost:8081/h2-console (jdbc:h2:mem:consumerdb)
+- Retailer: http://localhost:8082/h2-console (jdbc:h2:mem:retailerdb)
+- Product: http://localhost:8083/h2-console (jdbc:h2:mem:productdb)
+- Brand: http://localhost:8084/h2-console (jdbc:h2:mem:branddb)
+- Interaction: http://localhost:8085/h2-console (jdbc:h2:mem:interactiondb)
+
+---
+
+## 🎯 **Benefits of Simplified Architecture**
+
+1. **Reduced Complexity** - From 7 services to 5 services
+2. **Integrated Offers** - No need for separate offer management
+3. **Unified Brand/Shop** - Single entity for both global brands and local shops
+4. **Better Performance** - Fewer inter-service calls
+5. **Easier Maintenance** - Less code to maintain
+6. **Clear Responsibilities** - Each service has well-defined purpose
+
+---
+
+## 🔧 **Next Steps**
+
+1. **Start Services**: Run `mvn spring-boot:run` in each service directory
+2. **Test APIs**: Use the displayed curl commands or Postman
+3. **Verify Databases**: Check H2 console for each service
+4. **Create Test Data**: Use the sample JSON provided in testing guides
 
 
 
-----------
 
-## Each service description:
 
-# 🏗️ OfferZone Backend Services - Complete Guide
+--------------------------------------------------------------------------------------------------------
+
+# 🏗️ OfferZone Backend Services - Microservices Description and working
 
 ## 📋 Table of Contents
 - [Overview](#overview)
@@ -276,8 +181,8 @@ The backend is designed to be frontend-agnostic:
 - [Service Details](#service-details)
   - [1. Consumer Service](#1-consumer-service)
   - [2. Retailer Service](#2-retailer-service)
-  - [3. Category Service](#3-category-service)
-  - [4. Offer Service](#4-offer-service)
+  - [3. Product Service](#3-product-service)
+  - [4. Brand Service](#4-brand-service)
   - [5. Interaction Service](#5-interaction-service)
 - [Running the Services](#running-the-services)
 - [Database Access](#database-access)
@@ -286,11 +191,11 @@ The backend is designed to be frontend-agnostic:
 
 ## 🎯 Overview
 
-OfferZone is a microservice-based offer management platform with 5 independent services:
+OfferZone is a simplified microservice-based offer management platform with 5 core services:
 - **Consumer Service**: Manages end-users
 - **Retailer Service**: Manages businesses
-- **Category Service**: Manages offer categories
-- **Offer Service**: Manages deals/offers
+- **Product Service**: Manages products with integrated offers
+- **Brand Service**: Manages brands and shops (combined entity)
 - **Interaction Service**: Tracks user analytics
 
 ## ⚙️ Prerequisites
@@ -304,21 +209,28 @@ OfferZone is a microservice-based offer management platform with 5 independent s
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│ Consumer Service│    │ Retailer Service│    │ Category Service│
+│ Consumer Service│    │ Retailer Service│    │ Product Service │
 │    Port: 8081   │    │    Port: 8082   │    │    Port: 8083   │
-│   DB: consumerdb│    │   DB: retailerdb│    │   DB: categorydb│
+│   DB: consumerdb│    │   DB: retailerdb│    │   DB: productdb │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
          │                       │                       │
          │                       │                       │
          └───────────────────────┼───────────────────────┘
                                  │
          ┌─────────────────┐    ┌─┴───────────────┐
-         │  Offer Service  │    │ Interaction     │
+         │  Brand Service  │    │ Interaction     │
          │   Port: 8084    │    │ Service         │
-         │   DB: offerdb   │    │ Port: 8085      │
+         │   DB: branddb   │    │ Port: 8085      │
          └─────────────────┘    │ DB: interactiondb│
                                 └─────────────────┘
 ```
+
+**🆕 Key Changes from Previous Architecture:**
+- ❌ **Removed Category Service** - Categories now handled as string fields in Product
+- ❌ **Removed Offer Service** - Offers integrated directly into Product entity
+- ✅ **Added Product Service** - Products with built-in offer functionality
+- ✅ **Updated Brand Service** - Combines both brands and shops in one entity
+- ✅ **Updated Interaction Service** - Uses productId instead of offerId
 
 ---
 
@@ -511,96 +423,163 @@ UPDATE retailers SET status = 'ACTIVE' WHERE id = 1;
 
 ---
 
-## 3. 📂 Category Service
+## 3. � Product Service
 
 ### **Purpose**
-Manages offer categories for organization and filtering.
+Manages products with integrated offer functionality. No separate offer entity needed.
 
 ### **Port & Database**
 - **Port**: 8083
-- **Database**: H2 in-memory (`categorydb`)
+- **Database**: H2 in-memory (`productdb`)
 - **Console**: http://localhost:8083/h2-console
 
 ### **📋 Step-by-Step Procedure**
 
-#### **Step 1: Navigate and Build**
+#### **Step 1: Navigate to Service Directory**
 ```bash
-cd Backend/category-service
+cd Backend/product-service
+```
+
+#### **Step 2: Build the Service**
+```bash
 mvn clean install
 ```
 
-#### **Step 2: Run the Service**
+**Expected Output:**
+```
+[INFO] BUILD SUCCESS
+[INFO] Total time: 3.2 s
+[INFO] Finished at: 2025-11-03T14:30:45+05:30
+```
+
+#### **Step 3: Run the Service**
 ```bash
 mvn spring-boot:run
 ```
 
 **Expected Output:**
 ```
-2025-11-03T01:40:50.486+05:30  INFO 12347 --- [main] c.o.category.CategoryServiceApplication : Starting CategoryServiceApplication
-2025-11-03T01:40:50.887+05:30  INFO 12347 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8083 (http)
+================================================================================
+🚀 PRODUCT SERVICE SUCCESSFULLY STARTED! 🚀
+================================================================================
 
-Hibernate: create table categories (
-    created_at timestamp(6) not null, 
-    id bigint generated by default as identity, 
-    updated_at timestamp(6), 
-    sort_order integer,
-    name varchar(100) not null unique, 
-    description varchar(300), 
-    icon_url varchar(200),
-    color_code varchar(7),
-    status varchar(20) not null check (status in ('ACTIVE','INACTIVE','DELETED')),
-    primary key (id)
-)
+📋 SERVICE INFORMATION:
+   Service: PRODUCT-SERVICE
+   Port: 8083
+   Database: productdb
+   Base URL: http://localhost:8083
+   H2 Console: http://localhost:8083/h2-console
 
-2025-11-03T01:40:51.767+05:30  INFO 12347 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8083 (http)
+🔐 H2 DATABASE CONNECTION DETAILS:
+   JDBC URL: jdbc:h2:mem:productdb
+   Username: sa
+   Password: (leave empty)
+
+🛠️  REST API ENDPOINTS:
+   GET    http://localhost:8083/api/products          - Get all products
+   GET    http://localhost:8083/api/products/{id}     - Get product by ID
+   POST   http://localhost:8083/api/products          - Create new product
+   PUT    http://localhost:8083/api/products/{id}     - Update product
+   DELETE http://localhost:8083/api/products/{id}     - Delete product
+
+💡 SPECIAL FEATURES:
+   - Integrated Offers: No separate offer entity needed
+   - Auto Discount Calculation: Updates when prices change
+   - Offer Validation: Checks dates, redemptions, stock
+   - Effective Price: Returns offer price when valid, original otherwise
 ```
 
 ### **🗄️ Database Schema**
+The service creates the following table structure with integrated offer functionality:
+
 ```sql
-CREATE TABLE categories (
+CREATE TABLE products (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    description VARCHAR(300),
-    icon_url VARCHAR(200),
-    color_code VARCHAR(7),
-    status VARCHAR(20) NOT NULL CHECK (status IN ('ACTIVE','INACTIVE','DELETED')),
-    sort_order INTEGER,
+    name VARCHAR(200) NOT NULL,
+    description VARCHAR(1000),
+    retailer_id BIGINT NOT NULL,
+    brand_id BIGINT NOT NULL,
+    original_price DECIMAL(12,2) NOT NULL,
+    offer_price DECIMAL(12,2),
+    discount_percentage DECIMAL(5,2),
+    offer_start_date TIMESTAMP,
+    offer_end_date TIMESTAMP,
+    offer_terms VARCHAR(500),
+    stock_quantity INTEGER,
+    sku VARCHAR(100) UNIQUE,
+    category VARCHAR(100),
+    image_url VARCHAR(500),
+    is_featured BOOLEAN DEFAULT FALSE,
+    is_offer_active BOOLEAN DEFAULT FALSE,
+    max_redemptions INTEGER,
+    current_redemptions INTEGER DEFAULT 0,
+    status VARCHAR(20) NOT NULL CHECK (status IN ('ACTIVE','INACTIVE','OUT_OF_STOCK','DISCONTINUED','DRAFT')),
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP
 );
 ```
 
-### **📊 Sample Data Setup**
-```sql
--- Insert sample categories
-INSERT INTO categories (name, description, icon_url, color_code, status, sort_order, created_at, updated_at) VALUES 
-('Electronics', 'Phones, Laptops, Gadgets', '/icons/electronics.png', '#FF5733', 'ACTIVE', 1, NOW(), NOW()),
-('Fashion', 'Clothing, Shoes, Accessories', '/icons/fashion.png', '#33FF57', 'ACTIVE', 2, NOW(), NOW()),
-('Food & Dining', 'Restaurants, Fast Food, Groceries', '/icons/food.png', '#5733FF', 'ACTIVE', 3, NOW(), NOW()),
-('Health & Beauty', 'Cosmetics, Healthcare, Wellness', '/icons/beauty.png', '#FF3357', 'ACTIVE', 4, NOW(), NOW()),
-('Sports & Fitness', 'Gym, Sports Equipment, Outdoor', '/icons/sports.png', '#57FF33', 'ACTIVE', 5, NOW(), NOW());
+### **� Database Access**
+1. **Open H2 Console**: http://localhost:8083/h2-console
+2. **Connection Details**:
+   - **JDBC URL**: `jdbc:h2:mem:productdb`
+   - **Username**: `sa`
+   - **Password**: (leave empty)
+3. **Click Connect**
 
--- View categories ordered by sort_order
-SELECT * FROM categories WHERE status = 'ACTIVE' ORDER BY sort_order;
+### **�📊 Sample Data Operations**
+```sql
+-- Insert a product with offer
+INSERT INTO products (name, description, retailer_id, brand_id, original_price, offer_price, offer_start_date, offer_end_date, is_offer_active, category, sku, stock_quantity, max_redemptions, status, created_at, updated_at) 
+VALUES ('iPhone 15 Pro', 'Latest iPhone with amazing features', 1, 1, 999.99, 799.99, NOW(), DATEADD('DAY', 30, NOW()), TRUE, 'Electronics', 'IPHONE15PRO', 100, 50, 'ACTIVE', NOW(), NOW());
+
+-- View products with calculated effective prices
+SELECT 
+    name,
+    original_price,
+    offer_price,
+    CASE 
+        WHEN is_offer_active = TRUE AND offer_start_date <= NOW() AND offer_end_date >= NOW() THEN offer_price
+        ELSE original_price
+    END AS effective_price,
+    discount_percentage,
+    status
+FROM products 
+WHERE status = 'ACTIVE';
+
+-- Check offer validity
+SELECT 
+    name,
+    is_offer_active,
+    offer_start_date,
+    offer_end_date,
+    CASE 
+        WHEN is_offer_active = TRUE AND offer_start_date <= NOW() AND offer_end_date >= NOW() THEN 'VALID'
+        ELSE 'INVALID'
+    END AS offer_status
+FROM products;
+
+-- Track redemptions
+UPDATE products SET current_redemptions = current_redemptions + 1 WHERE id = 1;
 ```
 
 ---
 
-## 4. 🎯 Offer Service
+## 4. � Brand Service
 
 ### **Purpose**
-Core service managing all offers/deals on the platform.
+Manages both global brands and local shops in a single unified entity.
 
 ### **Port & Database**
 - **Port**: 8084
-- **Database**: H2 in-memory (`offerdb`)
+- **Database**: H2 in-memory (`branddb`)
 - **Console**: http://localhost:8084/h2-console
 
 ### **📋 Step-by-Step Procedure**
 
 #### **Step 1: Navigate and Build**
 ```bash
-cd Backend/offer-service
+cd Backend/brand-service
 mvn clean install
 ```
 
@@ -611,84 +590,90 @@ mvn spring-boot:run
 
 **Expected Output:**
 ```
-2025-11-03T01:45:50.486+05:30  INFO 12348 --- [main] c.o.offer.OfferServiceApplication : Starting OfferServiceApplication
-2025-11-03T01:45:50.887+05:30  INFO 12348 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8084 (http)
+================================================================================
+🚀 BRAND SERVICE SUCCESSFULLY STARTED! 🚀
+================================================================================
 
-Hibernate: create table offers (
-    created_at timestamp(6) not null, 
-    id bigint generated by default as identity, 
-    updated_at timestamp(6),
-    valid_from timestamp(6),
-    valid_until timestamp(6),
-    retailer_id bigint not null,
-    category_id bigint not null,
-    current_redemptions integer,
-    max_redemptions integer,
-    original_price decimal(10,2) not null,
-    discounted_price decimal(10,2) not null,
-    discount_percentage decimal(5,2),
-    title varchar(200) not null,
-    description varchar(1000),
-    image_url varchar(500),
-    terms_conditions varchar(1000),
-    status varchar(20) not null check (status in ('DRAFT','ACTIVE','PAUSED','EXPIRED','EXHAUSTED','CANCELLED','DELETED')),
-    primary key (id)
-)
+📋 SERVICE INFORMATION:
+   Service: BRAND-SERVICE
+   Port: 8084
+   Database: branddb
+   Base URL: http://localhost:8084
+   H2 Console: http://localhost:8084/h2-console
 
-2025-11-03T01:45:51.767+05:30  INFO 12348 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8084 (http)
+💡 SPECIAL FEATURES:
+   - Combined Entity: Brands and Shops in one table
+   - Brand Type: BRAND (global) or SHOP (local)
+   - Smart Fields: Logo/website for brands, address/hours for shops
+   - Rating System: Supports ratings and verification
 ```
 
 ### **🗄️ Database Schema**
 ```sql
-CREATE TABLE offers (
+CREATE TABLE brands (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(200) NOT NULL,
-    description VARCHAR(1000),
-    original_price DECIMAL(10,2) NOT NULL,
-    discounted_price DECIMAL(10,2) NOT NULL,
-    discount_percentage DECIMAL(5,2),
-    image_url VARCHAR(500),
-    retailer_id BIGINT NOT NULL,
-    category_id BIGINT NOT NULL,
-    status VARCHAR(20) NOT NULL,
-    valid_from TIMESTAMP,
-    valid_until TIMESTAMP,
-    terms_conditions VARCHAR(1000),
-    max_redemptions INTEGER,
-    current_redemptions INTEGER DEFAULT 0,
+    name VARCHAR(100) NOT NULL,
+    description VARCHAR(500),
+    logo_url VARCHAR(500),
+    website_url VARCHAR(500),
+    contact_email VARCHAR(150),
+    contact_phone VARCHAR(15),
+    address VARCHAR(200),
+    city VARCHAR(100),
+    state VARCHAR(100),
+    zip_code VARCHAR(10),
+    country VARCHAR(100),
+    brand_type VARCHAR(20) NOT NULL CHECK (brand_type IN ('BRAND','SHOP')),
+    category VARCHAR(100),
+    rating DECIMAL(2,1),
+    review_count INTEGER DEFAULT 0,
+    is_verified BOOLEAN DEFAULT FALSE,
+    is_featured BOOLEAN DEFAULT FALSE,
+    operating_hours VARCHAR(500),
+    facebook_url VARCHAR(500),
+    instagram_url VARCHAR(500),
+    twitter_url VARCHAR(500),
+    status VARCHAR(20) NOT NULL CHECK (status IN ('ACTIVE','INACTIVE','PENDING_VERIFICATION','SUSPENDED','CLOSED')),
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP
 );
 ```
 
-### **📊 Sample Data and Operations**
+### **📊 Sample Data Operations**
 ```sql
--- Insert sample offers (assuming retailer_id=1 and category_id=1 exist)
-INSERT INTO offers (title, description, original_price, discounted_price, discount_percentage, retailer_id, category_id, status, valid_from, valid_until, max_redemptions, current_redemptions, created_at, updated_at) VALUES 
-('iPhone 15 Pro Max - 50% Off', 'Latest iPhone with amazing features', 1299.99, 649.99, 50.00, 1, 1, 'ACTIVE', NOW(), DATEADD('DAY', 30, NOW()), 100, 0, NOW(), NOW()),
-('Samsung Galaxy S24 Deal', 'Premium Android smartphone', 999.99, 799.99, 20.00, 1, 1, 'ACTIVE', NOW(), DATEADD('DAY', 15, NOW()), 50, 0, NOW(), NOW());
+-- Insert a global brand
+INSERT INTO brands (name, description, brand_type, logo_url, website_url, contact_email, category, is_verified, status, created_at, updated_at) 
+VALUES ('Nike', 'Global sportswear brand', 'BRAND', 'https://example.com/nike-logo.png', 'https://nike.com', 'contact@nike.com', 'Sportswear', TRUE, 'ACTIVE', NOW(), NOW());
 
--- View active offers with details
-SELECT 
-    o.title, 
-    o.original_price, 
-    o.discounted_price, 
-    o.discount_percentage,
-    o.status,
-    o.current_redemptions,
-    o.max_redemptions
-FROM offers o 
-WHERE o.status = 'ACTIVE' 
-AND o.valid_from <= NOW() 
-AND o.valid_until >= NOW();
+-- Insert a local shop
+INSERT INTO brands (name, description, brand_type, address, city, state, zip_code, contact_phone, operating_hours, category, rating, status, created_at, updated_at) 
+VALUES ('Joe''s Pizza', 'Best pizza in town', 'SHOP', '123 Main Street', 'New York', 'NY', '10001', '1234567890', '9 AM - 11 PM', 'Restaurant', 4.5, 'ACTIVE', NOW(), NOW());
 
--- Calculate savings
+-- View brands vs shops
 SELECT 
-    title,
-    original_price - discounted_price AS savings_amount,
-    discount_percentage
-FROM offers 
-WHERE status = 'ACTIVE';
+    name,
+    brand_type,
+    CASE 
+        WHEN brand_type = 'BRAND' THEN website_url
+        WHEN brand_type = 'SHOP' THEN CONCAT(city, ', ', state)
+        ELSE 'N/A'
+    END AS location_or_website,
+    rating,
+    status
+FROM brands 
+ORDER BY brand_type, name;
+
+-- Get full address for shops
+SELECT 
+    name,
+    CONCAT(
+        COALESCE(address, ''), 
+        CASE WHEN city IS NOT NULL THEN CONCAT(', ', city) ELSE '' END,
+        CASE WHEN state IS NOT NULL THEN CONCAT(', ', state) ELSE '' END,
+        CASE WHEN zip_code IS NOT NULL THEN CONCAT(' - ', zip_code) ELSE '' END
+    ) AS full_address
+FROM brands 
+WHERE brand_type = 'SHOP' AND status = 'ACTIVE';
 ```
 
 ---
@@ -696,7 +681,7 @@ WHERE status = 'ACTIVE';
 ## 5. 📊 Interaction Service
 
 ### **Purpose**
-Tracks all user interactions for analytics and personalization.
+Tracks all user interactions with products for analytics and personalization.
 
 ### **Port & Database**
 - **Port**: 8085
@@ -718,56 +703,76 @@ mvn spring-boot:run
 
 **Expected Output:**
 ```
-2025-11-03T01:50:50.486+05:30  INFO 12349 --- [main] c.o.interaction.InteractionServiceApplication : Starting InteractionServiceApplication
-2025-11-03T01:50:50.887+05:30  INFO 12349 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer : Tomcat initialized with port(s): 8085 (http)
+================================================================================
+🚀 INTERACTION SERVICE SUCCESSFULLY STARTED! 🚀
+================================================================================
 
-Hibernate: create table interactions (
-    created_at timestamp(6) not null, 
-    id bigint generated by default as identity, 
-    consumer_id bigint not null,
-    offer_id bigint not null,
-    session_id varchar(100),
-    interaction_type varchar(20) not null check (interaction_type in ('VIEW','SAVE','UNSAVE','SHARE','REDEEM','CLICK','SEARCH','FILTER')),
-    interaction_data varchar(500),
-    device_info varchar(200),
-    ip_address varchar(45),
-    primary key (id)
-)
+📋 SERVICE INFORMATION:
+   Service: INTERACTION-SERVICE
+   Port: 8085
+   Database: interactiondb
+   Base URL: http://localhost:8085
+   H2 Console: http://localhost:8085/h2-console
 
-2025-11-03T01:50:51.767+05:30  INFO 12349 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8085 (http)
+🔐 H2 DATABASE CONNECTION DETAILS:
+   JDBC URL: jdbc:h2:mem:interactiondb
+   Username: sa
+   Password: (leave empty)
+
+🛠️  REST API ENDPOINTS:
+   GET    http://localhost:8085/api/interactions       - Get all interactions
+   GET    http://localhost:8085/api/interactions/{id}  - Get interaction by ID
+   POST   http://localhost:8085/api/interactions       - Create new interaction
+   PUT    http://localhost:8085/api/interactions/{id}  - Update interaction
+   DELETE http://localhost:8085/api/interactions/{id}  - Delete interaction
 ```
 
 ### **🗄️ Database Schema**
+Updated to use productId instead of offerId:
+
 ```sql
 CREATE TABLE interactions (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     consumer_id BIGINT NOT NULL,
-    offer_id BIGINT NOT NULL,
-    interaction_type VARCHAR(20) NOT NULL,
+    product_id BIGINT NOT NULL,
+    retailer_id BIGINT,
+    brand_id BIGINT,
+    interaction_type VARCHAR(20) NOT NULL CHECK (interaction_type IN ('VIEW','SAVE','REDEEM','CLICK','SEARCH','FILTER')),
     interaction_data VARCHAR(500),
     device_info VARCHAR(200),
     ip_address VARCHAR(45),
     session_id VARCHAR(100),
+    user_agent VARCHAR(500),
+    referrer_url VARCHAR(500),
+    page_url VARCHAR(500),
     created_at TIMESTAMP NOT NULL
 );
 ```
 
+### **🔍 Database Access**
+1. **Open H2 Console**: http://localhost:8085/h2-console
+2. **Connection Details**:
+   - **JDBC URL**: `jdbc:h2:mem:interactiondb`
+   - **Username**: `sa`
+   - **Password**: (leave empty)
+3. **Click Connect**
+
 ### **📊 Sample Analytics Queries**
 ```sql
--- Insert sample interactions
-INSERT INTO interactions (consumer_id, offer_id, interaction_type, device_info, ip_address, session_id, created_at) VALUES 
-(1, 1, 'VIEW', 'Chrome/120.0 Desktop', '192.168.1.100', 'session-001', NOW()),
-(1, 1, 'SAVE', 'Chrome/120.0 Desktop', '192.168.1.100', 'session-001', NOW()),
-(2, 1, 'VIEW', 'Safari/17.0 Mobile', '192.168.1.101', 'session-002', NOW()),
-(2, 2, 'REDEEM', 'Safari/17.0 Mobile', '192.168.1.101', 'session-002', NOW());
+-- Insert sample interactions (using productId instead of offerId)
+INSERT INTO interactions (consumer_id, product_id, retailer_id, brand_id, interaction_type, device_info, ip_address, session_id, created_at) VALUES 
+(1, 1, 1, 1, 'VIEW', 'Chrome/120.0 Desktop', '192.168.1.100', 'session-001', NOW()),
+(1, 1, 1, 1, 'SAVE', 'Chrome/120.0 Desktop', '192.168.1.100', 'session-001', NOW()),
+(2, 1, 1, 1, 'VIEW', 'Safari/17.0 Mobile', '192.168.1.101', 'session-002', NOW()),
+(2, 2, 1, 2, 'REDEEM', 'Safari/17.0 Mobile', '192.168.1.101', 'session-002', NOW());
 
--- Most popular offers (by views)
+-- Most popular products (by views)
 SELECT 
-    offer_id, 
+    product_id, 
     COUNT(*) as view_count 
 FROM interactions 
 WHERE interaction_type = 'VIEW' 
-GROUP BY offer_id 
+GROUP BY product_id 
 ORDER BY view_count DESC;
 
 -- User engagement analysis
@@ -779,6 +784,17 @@ SELECT
 FROM interactions 
 GROUP BY consumer_id;
 
+-- Brand performance analysis
+SELECT 
+    brand_id,
+    COUNT(*) as total_interactions,
+    COUNT(CASE WHEN interaction_type = 'VIEW' THEN 1 END) as views,
+    COUNT(CASE WHEN interaction_type = 'REDEEM' THEN 1 END) as redemptions
+FROM interactions 
+WHERE brand_id IS NOT NULL
+GROUP BY brand_id 
+ORDER BY total_interactions DESC;
+
 -- Device analysis
 SELECT 
     CASE 
@@ -789,13 +805,26 @@ SELECT
     COUNT(*) as interaction_count
 FROM interactions 
 GROUP BY device_type;
+
+-- Retailer analytics
+SELECT 
+    retailer_id,
+    COUNT(DISTINCT consumer_id) as unique_visitors,
+    COUNT(*) as total_interactions,
+    COUNT(CASE WHEN interaction_type = 'REDEEM' THEN 1 END) as conversions
+FROM interactions 
+WHERE retailer_id IS NOT NULL
+GROUP BY retailer_id 
+ORDER BY total_interactions DESC;
 ```
 
 ---
 
 ## 🚀 Running All Services
 
-### **Method 1: Individual Services**
+### **Method 1: Individual Services (Recommended)**
+Each service displays comprehensive testing guides automatically:
+
 ```bash
 # Terminal 1: Consumer Service
 cd Backend/consumer-service && mvn spring-boot:run
@@ -803,21 +832,36 @@ cd Backend/consumer-service && mvn spring-boot:run
 # Terminal 2: Retailer Service
 cd Backend/retailer-service && mvn spring-boot:run
 
-# Terminal 3: Category Service
-cd Backend/category-service && mvn spring-boot:run
+# Terminal 3: Product Service (with integrated offers)
+cd Backend/product-service && mvn spring-boot:run
 
-# Terminal 4: Offer Service
-cd Backend/offer-service && mvn spring-boot:run
+# Terminal 4: Brand Service (brands + shops)
+cd Backend/brand-service && mvn spring-boot:run
 
-# Terminal 5: Interaction Service
+# Terminal 5: Interaction Service (updated)
 cd Backend/interaction-service && mvn spring-boot:run
 ```
 
-### **Method 2: Build Script**
+**🎯 What You'll See:**
+Each service automatically displays:
+- ✅ Complete service information
+- ✅ H2 database connection details
+- ✅ REST API endpoints
+- ✅ Sample JSON for testing
+- ✅ Ready-to-copy curl commands
+- ✅ Step-by-step testing instructions
+
+### **Method 2: All Services at Once**
 ```bash
 cd Backend
-chmod +x start-services.sh
-./start-services.sh
+chmod +x start-all-services.sh
+./start-all-services.sh
+```
+
+### **Method 3: Stop All Services**
+```bash
+cd Backend
+./stop-services.sh
 ```
 
 ### **Service Health Check**
@@ -825,8 +869,8 @@ chmod +x start-services.sh
 # Check all services are running
 curl http://localhost:8081  # Consumer Service
 curl http://localhost:8082  # Retailer Service
-curl http://localhost:8083  # Category Service
-curl http://localhost:8084  # Offer Service
+curl http://localhost:8083  # Product Service (was Category)
+curl http://localhost:8084  # Brand Service (was Offer)
 curl http://localhost:8085  # Interaction Service
 ```
 
@@ -840,8 +884,8 @@ curl http://localhost:8085  # Interaction Service
 |---------|-------------|----------|----------|----------|
 | Consumer | http://localhost:8081/h2-console | `jdbc:h2:mem:consumerdb` | `sa` | (empty) |
 | Retailer | http://localhost:8082/h2-console | `jdbc:h2:mem:retailerdb` | `sa` | (empty) |
-| Category | http://localhost:8083/h2-console | `jdbc:h2:mem:categorydb` | `sa` | (empty) |
-| Offer | http://localhost:8084/h2-console | `jdbc:h2:mem:offerdb` | `sa` | (empty) |
+| Product | http://localhost:8083/h2-console | `jdbc:h2:mem:productdb` | `sa` | (empty) |
+| Brand | http://localhost:8084/h2-console | `jdbc:h2:mem:branddb` | `sa` | (empty) |
 | Interaction | http://localhost:8085/h2-console | `jdbc:h2:mem:interactiondb` | `sa` | (empty) |
 
 ### **Connection Steps**
@@ -850,6 +894,13 @@ curl http://localhost:8085  # Interaction Service
 3. Username: `sa`
 4. Password: (leave empty)
 5. Click "Connect"
+
+### **Database Tables Overview**
+- **CONSUMERS** - User accounts with email, status, location preferences
+- **RETAILERS** - Business accounts with subscription plans and status
+- **PRODUCTS** - Products with integrated offers (original/offer pricing)
+- **BRANDS** - Combined brands and shops with type classification
+- **INTERACTIONS** - Product interaction analytics for business intelligence
 
 ---
 
@@ -873,11 +924,34 @@ PUT    /api/retailers/{id}      - Update retailer
 POST   /api/retailers/{id}/approve - Approve retailer
 ```
 
-### **Category Service API**
+### **Product Service API (with Integrated Offers)**
 ```
-GET    /api/categories          - List all categories
-POST   /api/categories          - Create new category
-GET    /api/categories/{id}     - Get category by ID
+GET    /api/products            - List all products
+POST   /api/products            - Create new product with offer
+GET    /api/products/{id}       - Get product by ID
+PUT    /api/products/{id}       - Update product/offer
+DELETE /api/products/{id}       - Delete product
+GET    /api/products/{id}/offer - Get offer details for product
+PUT    /api/products/{id}/offer - Update offer pricing
+```
+
+### **Brand Service API (Brands + Shops)**
+```
+GET    /api/brands              - List all brands/shops
+POST   /api/brands              - Create new brand/shop
+GET    /api/brands/{id}         - Get brand/shop by ID
+PUT    /api/brands/{id}         - Update brand/shop
+GET    /api/brands/type/{type}  - Get by type (BRAND/SHOP)
+```
+
+### **Interaction Service API (Updated for Products)**
+```
+GET    /api/interactions        - List all interactions
+POST   /api/interactions        - Record new interaction
+GET    /api/interactions/product/{productId} - Get interactions for product
+GET    /api/interactions/retailer/{retailerId} - Get interactions for retailer
+POST   /api/interactions/analytics - Get analytics data
+```
 PUT    /api/categories/{id}     - Update category
 DELETE /api/categories/{id}     - Delete category
 ```
@@ -989,18 +1063,27 @@ When all services are running successfully, you should see:
 ```
 ✅ Consumer Service    - http://localhost:8081 - Managing Users
 ✅ Retailer Service    - http://localhost:8082 - Managing Businesses  
-✅ Category Service    - http://localhost:8083 - Managing Categories
-✅ Offer Service       - http://localhost:8084 - Managing Offers
-✅ Interaction Service - http://localhost:8085 - Tracking Analytics
+✅ Product Service     - http://localhost:8083 - Managing Products (with offers)
+✅ Brand Service       - http://localhost:8084 - Managing Brands & Shops
+✅ Interaction Service - http://localhost:8085 - Tracking Product Analytics
 
 💾 All databases initialized with proper schema
 🔧 H2 consoles accessible for each service
-📊 Ready for API layer implementation
-🚀 Microservice foundation complete
+📊 Automatic testing guides active on startup
+🚀 Simplified 5-service microservice architecture complete
 ```
+
+### **Key Features of Updated Architecture:**
+- 🎯 **Simplified Design**: Reduced from 7 to 5 core services
+- 🛍️ **Integrated Offers**: Products include offer functionality directly
+- 🏷️ **Combined Entities**: Brand service handles both brands and shops
+- 📊 **Product Analytics**: Interactions track product engagement
+- 🔄 **Auto-testing**: Comprehensive startup guides for immediate testing
 
 ---
 
-**🎉 Congratulations! Your OfferZone microservice backend is now fully operational!**
+**🎉 Congratulations! Your OfferZone simplified microservice backend is now fully operational!**
 
 For additional support or feature requests, please refer to the project documentation or contact the development team.
+
+The architecture is now streamlined and ready for development! 🎉
