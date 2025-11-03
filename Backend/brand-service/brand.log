@@ -1,0 +1,169 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.offerzone:brand-service >---------------------
+[INFO] Building Brand Service 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.1.5:run (default-cli) > test-compile @ brand-service >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ brand-service ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ brand-service ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 7 source files with javac [debug release 17] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ brand-service ---
+[INFO] skip non existing resourceDirectory /Users/I528989/Desktop/Bits/Sem 3/Api Project/APIBP-20242YB-Team-11/Backend/brand-service/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ brand-service ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] <<< spring-boot:3.1.5:run (default-cli) < test-compile @ brand-service <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.1.5:run (default-cli) @ brand-service ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.5)
+
+2025-11-03T17:11:04.937+05:30  INFO 62752 --- [           main] c.o.brand.BrandServiceApplication        : Starting BrandServiceApplication using Java 17.0.16 with PID 62752 (/Users/I528989/Desktop/Bits/Sem 3/Api Project/APIBP-20242YB-Team-11/Backend/brand-service/target/classes started by I528989 in /Users/I528989/Desktop/Bits/Sem 3/Api Project/APIBP-20242YB-Team-11/Backend/brand-service)
+2025-11-03T17:11:04.938+05:30  INFO 62752 --- [           main] c.o.brand.BrandServiceApplication        : No active profile set, falling back to 1 default profile: "default"
+2025-11-03T17:11:05.115+05:30  INFO 62752 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-03T17:11:05.122+05:30  INFO 62752 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 JPA repository interfaces.
+2025-11-03T17:11:05.278+05:30  INFO 62752 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8084 (http)
+2025-11-03T17:11:05.281+05:30  INFO 62752 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-03T17:11:05.282+05:30  INFO 62752 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.15]
+2025-11-03T17:11:05.313+05:30  INFO 62752 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-11-03T17:11:05.313+05:30  INFO 62752 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 362 ms
+2025-11-03T17:11:05.325+05:30  INFO 62752 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-11-03T17:11:05.383+05:30  INFO 62752 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:branddb user=SA
+2025-11-03T17:11:05.383+05:30  INFO 62752 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-11-03T17:11:05.387+05:30  INFO 62752 --- [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:branddb'
+2025-11-03T17:11:05.425+05:30  INFO 62752 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-03T17:11:05.443+05:30  INFO 62752 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.13.Final
+2025-11-03T17:11:05.444+05:30  INFO 62752 --- [           main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2025-11-03T17:11:05.537+05:30  INFO 62752 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-03T17:11:05.552+05:30  WARN 62752 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-03T17:11:05.884+05:30  INFO 62752 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: drop table if exists brands cascade 
+Hibernate: create table brands (is_featured boolean, is_verified boolean, rating float(53), review_count integer check (review_count>=0), created_at timestamp(6) not null, id bigint generated by default as identity, updated_at timestamp(6), zip_code varchar(10), contact_phone varchar(15), category varchar(100), city varchar(100), country varchar(100), name varchar(100) not null, state varchar(100), contact_email varchar(150), address varchar(200), description varchar(500), facebook_url varchar(500), instagram_url varchar(500), logo_url varchar(500), operating_hours varchar(500), twitter_url varchar(500), website_url varchar(500), brand_type varchar(255) not null check (brand_type in ('BRAND','SHOP')), status varchar(255) not null check (status in ('ACTIVE','INACTIVE','PENDING_VERIFICATION','SUSPENDED','CLOSED')), primary key (id))
+2025-11-03T17:11:05.899+05:30  INFO 62752 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-03T17:11:05.912+05:30  WARN 62752 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-03T17:11:06.020+05:30  INFO 62752 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8084 (http) with context path ''
+2025-11-03T17:11:06.024+05:30  INFO 62752 --- [           main] c.o.brand.BrandServiceApplication        : Started BrandServiceApplication in 1.206 seconds (process running for 1.33)
+
+================================================================================
+🚀 BRAND SERVICE SUCCESSFULLY STARTED! 🚀
+================================================================================
+
+📋 SERVICE INFORMATION:
+   Service: BRAND-SERVICE
+   Port: 8084
+   Database: branddb
+   Base URL: http://localhost:8084
+   H2 Console: http://localhost:8084/h2-console
+
+🔐 H2 DATABASE CONNECTION DETAILS:
+   JDBC URL: jdbc:h2:mem:branddb
+   Username: sa
+   Password: (leave empty)
+   Driver: org.h2.Driver
+
+🛠️  REST API ENDPOINTS:
+   GET    http://localhost:8084/api/brands             - Get all brands
+   GET    http://localhost:8084/api/brands/{id}        - Get brand by ID
+   POST   http://localhost:8084/api/brands             - Create new brand
+   PUT    http://localhost:8084/api/brands/{id}        - Update brand
+   DELETE http://localhost:8084/api/brands/{id}        - Delete brand
+
+📝 SAMPLE JSON FOR POST/PUT (Brand Example):
+   {
+       "name": "Nike",
+       "description": "Global sportswear brand",
+       "brandType": "BRAND",
+       "logoUrl": "https://example.com/nike-logo.png",
+       "websiteUrl": "https://nike.com",
+       "contactEmail": "contact@nike.com",
+       "category": "Sportswear",
+       "isVerified": true,
+       "status": "ACTIVE"
+   }
+
+📝 SAMPLE JSON FOR POST/PUT (Shop Example):
+   {
+       "name": "Joe's Pizza",
+       "description": "Best pizza in town",
+       "brandType": "SHOP",
+       "address": "123 Main Street",
+       "city": "New York",
+       "state": "NY",
+       "zipCode": "10001",
+       "contactPhone": "1234567890",
+       "operatingHours": "9 AM - 11 PM",
+       "category": "Restaurant",
+       "status": "ACTIVE"
+   }
+
+🔧 QUICK CURL TESTING COMMANDS:
+   # Get all brands
+   curl -X GET http://localhost:8084/api/brands
+
+   # Create a new brand
+   curl -X POST http://localhost:8084/api/brands \
+        -H "Content-Type: application/json" \
+        -d '{"name":"Sample Brand","brandType":"BRAND","description":"Test brand"}'
+
+   # Create a new shop
+   curl -X POST http://localhost:8084/api/brands \
+        -H "Content-Type: application/json" \
+        -d '{"name":"Local Shop","brandType":"SHOP","city":"New York"}'
+
+🧪 TESTING STEPS:
+   1. 🌐 Open browser: http://localhost:8084/h2-console
+   2. 🔗 Use JDBC URL: jdbc:h2:mem:branddb
+   3. 📊 Check 'brands' table: SELECT * FROM brands
+   4. 🔄 Test APIs using curl commands above
+   5. ✅ Verify both brands and shops work in same table
+
+💡 SPECIAL FEATURES:
+   - Combined Entity: Brands and Shops in one table
+   - Brand Type: BRAND (global) or SHOP (local)
+   - Smart Fields: Logo/website for brands, address/hours for shops
+   - Rating System: Supports ratings and verification
+   - Full Address: Automatic full address formatting
+
+================================================================================
+✨ Brand Service (Brands + Shops) is ready for testing! ✨
+================================================================================
+2025-11-03T17:20:01.404+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m25s821ms).
+2025-11-03T18:05:07.802+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m3s136ms).
+2025-11-03T18:07:27.373+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m19s502ms).
+2025-11-03T18:09:22.253+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=54s863ms).
+2025-11-03T18:25:42.606+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m50s345ms).
+2025-11-03T18:42:47.277+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=17m4s670ms).
+2025-11-03T18:58:23.914+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m36s637ms).
+2025-11-03T19:02:33.766+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m9s844ms).
+2025-11-03T19:11:16.605+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m12s777ms).
+2025-11-03T19:27:31.590+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m44s968ms).
+2025-11-03T19:43:27.460+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s869ms).
+2025-11-03T19:59:53.289+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s820ms).
+2025-11-03T20:16:49.230+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s832ms).
+2025-11-03T20:32:34.738+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m15s480ms).
+2025-11-03T20:48:30.537+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m55s799ms).
+2025-11-03T21:07:24.777+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=17m54s198ms).
+2025-11-03T21:12:47.272+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m22s493ms).
+2025-11-03T21:18:29.538+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m12s245ms).
+2025-11-03T21:53:10.098+05:30  WARN 62752 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13m40s332ms).
+2025-11-03T22:15:06.554+05:30  INFO 62752 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+Hibernate: drop table if exists brands cascade 
+2025-11-03T22:15:06.610+05:30  INFO 62752 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-11-03T22:15:06.616+05:30  INFO 62752 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

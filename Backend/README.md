@@ -1,4 +1,9 @@
-# 🚀 OfferZone Simplified Microservice Architecture
+# 🚀 OfferZone Backend - Microservices Architecture
+
+## 📖 **COMPLETE SETUP GUIDE**
+**👉 For detailed setup instructions, see: [SETUP_GUIDE.md](./SETUP_GUIDE.md) 👈**
+
+---
 
 ## ✅ Updated Codebase Summary
 
@@ -14,6 +19,15 @@ Backend/
 ├── brand-service/        (Port 8084) - Brands & Shops (combined)
 └── interaction-service/  (Port 8085) - User interactions
 ```
+
+---
+
+## 🚀 **Quick Start**
+
+1. **Clone the repository**
+2. **See [SETUP_GUIDE.md](./SETUP_GUIDE.md) for complete setup instructions**
+3. **Start all 5 services in separate terminals**
+4. **Access H2 databases on ports 8081-8085**
 
 ---
 
