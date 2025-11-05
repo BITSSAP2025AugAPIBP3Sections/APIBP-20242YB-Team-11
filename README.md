@@ -58,9 +58,8 @@ Consumers want the assurance of offline shopping—where they can touch, feel, a
 
 ## Tech Stack  
 - **Frontend:** React.js (Single Page Application for fast UI experience).  
-- **Backend:** Java/Spring Boot with REST APIs.  
-- **Database:** PostgreSQL with PostGIS for geospatial queries.  
-- **Messaging & Caching:** Kafka/RabbitMQ for async processing, Redis for caching.  
+- **Backend:** Node.js and Express for REST APIs.  
+- **Database:** MongoDB.  
 
 ## Team Members  
 - Bhaskar Kulshrestha – 93066 – @BhaskarKulshrestha 
