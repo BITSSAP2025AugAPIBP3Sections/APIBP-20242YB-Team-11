@@ -1,27 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const {
-  createOffer,
-  getAllOffers,
-  getOfferById,
-  updateOffer,
-  deleteOffer,
-  getMyOffers,
-  getOffersByFilter,
-  searchOffers,
-} = require("../controllers/Offers");
+  createProduct,
+  getAllProducts,
+  getProductById,
+  updateProduct,
+  deleteProduct,
+  getMyProducts,
+} = require("../controllers/Products");
 const { protect, authorize } = require("../middleware/authMiddleware");
 
-// Retailer routes
-router.post("/", protect, authorize("retailer"), createOffer);
-router.put("/:id", protect, authorize("retailer"), updateOffer);
-router.delete("/:id", protect, authorize("retailer"), deleteOffer);
-router.get("/mine", protect, authorize("retailer"), getMyOffers);
-
-// Public routes
-router.get("/", getAllOffers);
-router.get("/filter", getOffersByFilter);
-router.get("/search", searchOffers);
-router.get("/:id", getOfferById);
+router.post("/", protect, authorize("retailer"), createProduct);
+router.get("/", getAllProducts);
+router.get("/mine", protect, authorize("retailer"), getMyProducts);
+router.get("/:id", getProductById);
+router.put("/:id", protect, authorize("retailer"), updateProduct);
+router.delete("/:id", protect, authorize("retailer"), deleteProduct);
 
 module.exports = router;
