@@ -1,84 +1,124 @@
 openapi: 3.0.3
 info:
   title: OfferZone API
-  version: 1.0.0
-  description: >
-    OfferZone is a multi-role offer listing platform.
-    - Customers can view offers by city, area, category, brand, or product.
-    - Retailers can add, update, and delete products and offers.
+  version: 1.1.0
+  description: |
+    **OfferZone** is a multi-role offer listing platform.
+
+    ### Overview
+    - **Customers** can browse offers by city, area, category, brand, or product.
+    - **Retailers** can add, update, and delete their products and offers.
+
+    ### Authentication
+    All secured endpoints use **JWT Bearer Token** in the `Authorization` header.
+
+  contact:
+    name: OfferZone API Support
+    email: support@offerzone.io
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
 servers:
+  - url: https://api.offerzone.io/v1
+    description: Production server
   - url: http://localhost:8000/offerzone
     description: Local development server
 
 tags:
   - name: Authentication
-    description: Retailer and Customer authentication
+    description: Retailer and customer authentication
   - name: Products
     description: Product management for retailers
   - name: Offers
     description: Offer management and filtering
+  - name: Health
+    description: API health check endpoint
 
 paths:
+  /health:
+    get:
+      tags: [Health]
+      summary: Health check endpoint
+      description: Check API health and uptime status.
+      responses:
+        '200':
+          description: API is up and running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "UP"
+                  timestamp:
+                    type: string
+                    format: date-time
+
   /api/v1/auth:
     post:
       tags: [Authentication]
-      summary: Signup (Customer or Retailer)
+      summary: User signup (Customer or Retailer)
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              required: [name, email, password, role]
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
-                password:
-                  type: string
-                role:
-                  type: string
-                  enum: [customer, retailer]
+              $ref: '#/components/schemas/UserSignupRequest'
+            examples:
+              retailer:
+                summary: Retailer example
+                value:
+                  name: "John Retailer"
+                  email: "retailer@example.com"
+                  password: "Pass@123"
+                  role: "retailer"
       responses:
         '201':
           description: User successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
         '400':
-          description: Invalid or missing fields
+          $ref: '#/components/responses/BadRequest'
 
   /api/v1/auth/session:
     post:
       tags: [Authentication]
-      summary: Login (Customer or Retailer)
+      summary: User login
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              required: [email, password]
-              properties:
-                email:
-                  type: string
-                password:
-                  type: string
+              $ref: '#/components/schemas/LoginRequest'
       responses:
         '200':
           description: Login successful (returns JWT token)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
         '401':
-          description: Invalid credentials
+          $ref: '#/components/responses/Unauthorized'
 
   /api/v1/auth/me:
     get:
       tags: [Authentication]
-      summary: Get current user details
+      summary: Get current authenticated user
       security:
         - bearerAuth: []
       responses:
         '200':
-          description: Returns authenticated user profile
+          description: Authenticated user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         '401':
-          description: Missing or invalid token
+          $ref: '#/components/responses/Unauthorized'
 
   /api/v1/products:
     post:
@@ -95,63 +135,68 @@ paths:
       responses:
         '201':
           description: Product created successfully
-
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
     get:
       tags: [Products]
       summary: Get all products
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
       responses:
         '200':
-          description: Returns all products
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
 
   /api/v1/products/filter:
     get:
       tags: [Products]
-      summary: Filter products by city, category, brand
+      summary: Filter products by city, category, or brand
       parameters:
-        - name: city
-          in: query
-          schema:
-            type: string
-        - name: category
-          in: query
-          schema:
-            type: string
-        - name: brand
-          in: query
-          schema:
-            type: string
+        - $ref: '#/components/parameters/city'
+        - $ref: '#/components/parameters/category'
+        - $ref: '#/components/parameters/brand'
       responses:
         '200':
-          description: Returns matching products
+          description: Filtered product list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
         '404':
-          description: No products found
+          $ref: '#/components/responses/NotFound'
 
   /api/v1/products/{id}:
     get:
       tags: [Products]
-      summary: Get a single product by ID
+      summary: Get product by ID
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/idPath'
       responses:
         '200':
           description: Product found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
         '404':
-          description: Product not found
+          $ref: '#/components/responses/NotFound'
     put:
       tags: [Products]
       summary: Update a product
       security:
         - bearerAuth: []
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/idPath'
       requestBody:
         required: true
         content:
@@ -167,24 +212,10 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/idPath'
       responses:
-        '200':
-          description: Product deleted
-  
-  /api/v1/user/{id}/products:
-    get:
-      tags: [Products]
-      summary: Get all products created by the logged-in retailer
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: List of retailer’s product
+        '204':
+          description: Product deleted successfully
 
   /api/v1/offers:
     post:
@@ -201,107 +232,106 @@ paths:
       responses:
         '201':
           description: Offer created successfully
-
     get:
       tags: [Offers]
       summary: Get all offers
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
       responses:
         '200':
-          description: Returns all offers
-
-  /api/v1/user/{id}/offers:
-    get:
-      tags: [Offers]
-      summary: Get all offers created by the logged-in retailer
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: List of retailer’s offers
+          description: List of all offers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Offer'
 
   /api/v1/offers/filter:
     get:
       tags: [Offers]
-      summary: Filter offers by city, area, category, brand, or product
+      summary: Filter offers
       parameters:
-        - name: city
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: area
-          in: query
-          schema:
-            type: string
-        - name: category
-          in: query
-          schema:
-            type: string
-        - name: brand
-          in: query
-          schema:
-            type: string
-        - name: product
-          in: query
-          schema:
-            type: string
+        - $ref: '#/components/parameters/city'
+        - $ref: '#/components/parameters/area'
+        - $ref: '#/components/parameters/category'
+        - $ref: '#/components/parameters/brand'
+        - $ref: '#/components/parameters/product'
       responses:
         '200':
-          description: Filtered list of offers
+          description: Filtered offers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Offer'
         '404':
-          description: No offers found
-
-  /api/v1/offers/{id}:
-    get:
-      tags: [Offers]
-      summary: Get an offer by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Offer details
-        '404':
-          description: Offer not found
-    put:
-      tags: [Offers]
-      summary: Update an offer
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Offer'
-      responses:
-        '200':
-          description: Offer updated successfully
-    delete:
-      tags: [Offers]
-      summary: Delete an offer
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Offer deleted
+          $ref: '#/components/responses/NotFound'
 
 components:
+  parameters:
+    idPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique resource ID
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Page number for pagination
+    limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        default: 10
+      description: Number of records per page
+    city:
+      name: city
+      in: query
+      schema:
+        type: string
+      description: City name filter
+    area:
+      name: area
+      in: query
+      schema:
+        type: string
+      description: Area name filter
+    category:
+      name: category
+      in: query
+      schema:
+        type: string
+      description: Product category filter
+    brand:
+      name: brand
+      in: query
+      schema:
+        type: string
+      description: Brand filter
+    product:
+      name: product
+      in: query
+      schema:
+        type: string
+      description: Product filter
+
+  responses:
+    BadRequest:
+      description: Invalid request
+    Unauthorized:
+      description: Unauthorized or missing token
+    NotFound:
+      description: Resource not found
+
   securitySchemes:
     bearerAuth:
       type: http
@@ -309,16 +339,60 @@ components:
       bearerFormat: JWT
 
   schemas:
+    UserSignupRequest:
+      type: object
+      required: [name, email, password, role]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        role:
+          type: string
+          enum: [customer, retailer]
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5..."
+        user:
+          $ref: '#/components/schemas/User'
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum: [customer, retailer]
+
     Product:
       type: object
-      required:
-        - name
-        - brand
-        - category
-        - price
-        - city
-        - area
+      required: [name, brand, category, price, city, area]
       properties:
+        id:
+          type: string
         name:
           type: string
         brand:
@@ -335,20 +409,14 @@ components:
           type: string
         image:
           type: string
+          format: uri
 
     Offer:
       type: object
-      required:
-        - product
-        - title
-        - discountPercent
-        - originalPrice
-        - offerPrice
-        - city
-        - area
-        - validFrom
-        - validTill
+      required: [product, title, discountPercent, originalPrice, offerPrice, city, area, validFrom, validTill]
       properties:
+        id:
+          type: string
         product:
           type: string
           description: ObjectId of the product
@@ -374,16 +442,4 @@ components:
           type: string
         isPremium:
           type: boolean
-
-  user:
-    type: object
-    properties:
-      id:
-        type: string
-      name:
-        type: string
-      email:
-        type: string
-      role:
-        type: string
-        enum: [customer, retailer]
+          default: false
