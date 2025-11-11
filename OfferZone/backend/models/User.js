@@ -6,3 +6,5 @@ const { protect } = require("../middleware/authMiddleware");
 router.post("/", signup); 
 router.post("/session", login); 
 router.get("/me", protect, getCurrentUser); 
+
+module.exports = router;
