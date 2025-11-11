@@ -104,7 +104,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
-  /api/v1/profile/{userId}:
+  /api/v1/profile/me:
     get:
       tags: [Authentication]
       summary: Get current authenticated user
