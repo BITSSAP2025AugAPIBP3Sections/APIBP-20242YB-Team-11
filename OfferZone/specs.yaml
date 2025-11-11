@@ -19,7 +19,7 @@ tags:
     description: Offer management and filtering
 
 paths:
-  /auth:
+  /api/v1/auth:
     post:
       tags: [Authentication]
       summary: Signup (Customer or Retailer)
@@ -46,7 +46,7 @@ paths:
         '400':
           description: Invalid or missing fields
 
-  /auth/session:
+  /api/v1/auth/session:
     post:
       tags: [Authentication]
       summary: Login (Customer or Retailer)
@@ -68,7 +68,7 @@ paths:
         '401':
           description: Invalid credentials
 
-  /auth/me:
+  /api/v1/auth/me:
     get:
       tags: [Authentication]
       summary: Get current user details
@@ -80,7 +80,7 @@ paths:
         '401':
           description: Missing or invalid token
 
-  /products:
+  /api/v1/products:
     post:
       tags: [Products]
       summary: Add a new product
@@ -103,7 +103,7 @@ paths:
         '200':
           description: Returns all products
 
-  /products/filter:
+  /api/v1/products/filter:
     get:
       tags: [Products]
       summary: Filter products by city, category, brand
@@ -126,7 +126,7 @@ paths:
         '404':
           description: No products found
 
-  /products/{id}:
+  /api/v1/products/{id}:
     get:
       tags: [Products]
       summary: Get a single product by ID
@@ -175,8 +175,18 @@ paths:
       responses:
         '200':
           description: Product deleted
+  
+  /api/v1/user/{id}/products:
+    get:
+      tags: [Products]
+      summary: Get all products created by the logged-in retailer
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of retailer’s product
 
-  /offers:
+  /api/v1/offers:
     post:
       tags: [Offers]
       summary: Create a new offer
@@ -199,7 +209,7 @@ paths:
         '200':
           description: Returns all offers
 
-  /offers/mine:
+  /api/v1/user/{id}/offers:
     get:
       tags: [Offers]
       summary: Get all offers created by the logged-in retailer
@@ -209,7 +219,7 @@ paths:
         '200':
           description: List of retailer’s offers
 
-  /offers/filter:
+  /api/v1/offers/filter:
     get:
       tags: [Offers]
       summary: Filter offers by city, area, category, brand, or product
@@ -241,7 +251,7 @@ paths:
         '404':
           description: No offers found
 
-  /offers/{id}:
+  /api/v1/offers/{id}:
     get:
       tags: [Offers]
       summary: Get an offer by ID
@@ -364,3 +374,16 @@ components:
           type: string
         isPremium:
           type: boolean
+
+  user:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      email:
+        type: string
+      role:
+        type: string
+        enum: [customer, retailer]
