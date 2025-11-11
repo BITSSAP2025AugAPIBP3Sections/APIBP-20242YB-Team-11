@@ -123,6 +123,131 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
+# Refresh Token Endpoint
+  /api/v1/auth/refresh:
+    post:
+      tags: [Authentication]
+      summary: Refresh JWT access token
+      description: Refreshes the JWT access token using a valid refresh token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken:
+                  type: string
+                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      responses:
+        '200':
+          description: New JWT access token issued
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5..."
+                  expiresIn:
+                    type: integer
+                    example: 3600
+        '401':
+          description: Invalid or expired refresh token
+
+# Logout Endpoint
+  /api/v1/auth/logout:
+    post:
+      tags: [Authentication]
+      summary: Logout the current user
+      description: Invalidates the user's session or refresh token.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User logged out successfully
+        '401':
+          description: Unauthorized or invalid token
+
+# Forgot Password Endpoint
+  /api/v1/auth/forgot-password:
+    post:
+      tags: [Authentication]
+      summary: Forgot password
+      description: Sends a password reset link to the user's registered email.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "user@example.com"
+      responses:
+        '200':
+          description: Password reset link sent successfully
+        '404':
+          description: Email not registered
+
+# Reset Password Endpoint
+  /api/v1/auth/reset-password:
+    post:
+      tags: [Authentication]
+      summary: Reset password
+      description: Resets the user's password using a valid reset token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, newPassword]
+              properties:
+                token:
+                  type: string
+                newPassword:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Password reset successful
+        '400':
+          description: Invalid or expired reset token
+
+  /api/v1/auth/change-password:
+    put:
+      tags: [Authentication]
+      summary: Change current password
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [oldPassword, newPassword]
+              properties:
+                oldPassword:
+                  type: string
+                  format: password
+                newPassword:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Password changed successfully
+        '400':
+          description: Incorrect current password
+        '401':
+          description: Unauthorized
+
 # Product Endpoints
   /api/v1/products:
     post:
