@@ -56,6 +56,7 @@ paths:
                     type: string
                     format: date-time
 
+# Authentication Endpoints
   /api/v1/auth:
     post:
       tags: [Authentication]
@@ -84,6 +85,7 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 
+# Login Endpoint
   /api/v1/auth/session:
     post:
       tags: [Authentication]
@@ -104,6 +106,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
+# Get Current Authenticated User
   /api/v1/profile/me:
     get:
       tags: [Authentication]
@@ -120,6 +123,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
+# Product Endpoints
   /api/v1/products:
     post:
       tags: [Products]
@@ -155,6 +159,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Product'
 
+# Filter Products Endpoint
   /api/v1/products/filter:
     get:
       tags: [Products]
@@ -175,6 +180,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
+# Product by ID Endpoints
   /api/v1/products/{id}:
     get:
       tags: [Products]
@@ -216,7 +222,25 @@ paths:
       responses:
         '204':
           description: Product deleted successfully
+  
+# Get Products by user ID
+  /api/v1/user/{id}/products:
+    get:
+      tags: [Products]
+      summary: Get all products created by the logged-in retailer
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of retailer’s product
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
 
+# Offer Endpoints
   /api/v1/offers:
     post:
       tags: [Offers]
@@ -248,6 +272,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Offer'
 
+# Filter Offers Endpoint
   /api/v1/offers/filter:
     get:
       tags: [Offers]
@@ -269,6 +294,23 @@ paths:
                   $ref: '#/components/schemas/Offer'
         '404':
           $ref: '#/components/responses/NotFound'
+
+# Get Offers by user ID
+  /api/v1/user/{id}/offers:
+    get:
+      tags: [Offers]
+      summary: Get all offers created by the logged-in retailer
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of retailer’s offers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Offer'
 
 components:
   parameters:
