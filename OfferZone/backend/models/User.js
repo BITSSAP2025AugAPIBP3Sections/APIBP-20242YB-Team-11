@@ -23,7 +23,10 @@ const userSchema = new mongoose.Schema(
       enum: ["retailer", "customer"],
       required: true,
     },
+    city: {
+      type: String,
+      trim: true,
+    },
   },
   { timestamps: true }
 );
-
