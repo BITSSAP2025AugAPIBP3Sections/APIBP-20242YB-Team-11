@@ -9,6 +9,7 @@ const productSchema = new mongoose.Schema(
     },
     brand: {
       type: String,
+      required:true,
       trim: true,
     },
     category: {
@@ -24,7 +25,11 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-   
+    city: {
+        type: String,
+        required: true,
+        trim: true,
+      },
     area: {
       type: String,
       required: true,
