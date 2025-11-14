@@ -28,16 +28,28 @@ const retailerSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      trim: true,
+      required: true,
     },
     openingTime: {
-      type: String,
+      type: Date,
       trim: true,
     },
     closingTime: {
-      type: String,
+      type: Date,
       trim: true,
     },
+    products: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
+    offers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Offer",
+      },
+    ],
   },
   { timestamps: true }
 );
