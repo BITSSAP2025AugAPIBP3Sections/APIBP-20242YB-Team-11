@@ -20,16 +20,48 @@ async function createRetailer(req, res) {
       offers,
     } = req.body;
 
+    // Validate required fields
     if (!retailerCode || !shopName || !ownerName || !businessType || !description || !address) {
       return res.status(400).json({ message: "Missing required fields." });
     }
 
+    // Validate business type
+    const validBusinessTypes = ["Grocery", "Bakery", "Salon", "Mobile", "Electronics", "Clothing", "Other"];
+    if (!validBusinessTypes.includes(businessType)) {
+      return res.status(400).json({ message: "Invalid business type." });
+    }
+
+    // Validate products and offers arrays if provided
+    if (products && Array.isArray(products)) {
+      for (const productId of products) {
+        if (!mongoose.Types.ObjectId.isValid(productId)) {
+          return res.status(400).json({ message: "Invalid product ID in products array." });
+        }
+      }
+    }
+
+    if (offers && Array.isArray(offers)) {
+      for (const offerId of offers) {
+        if (!mongoose.Types.ObjectId.isValid(offerId)) {
+          return res.status(400).json({ message: "Invalid offer ID in offers array." });
+        }
+      }
+    }
+
+    // Validate owner ID format and existence
     if (!mongoose.Types.ObjectId.isValid(ownerName)) {
-      return res.status(400).json({ message: "Invalid owner id." });
+      return res.status(400).json({ message: "Invalid owner ID format." });
     }
 
     const owner = await User.findById(ownerName);
-    if (!owner) return res.status(404).json({ message: "Owner user not found." });
+    if (!owner) {
+      return res.status(404).json({ message: "Owner user not found." });
+    }
+
+    // Validate that the user has retailer role
+    if (owner.role !== "retailer") {
+      return res.status(400).json({ message: "User must have retailer role to own a shop." });
+    }
 
     // prevent duplicate shopName or retailerCode
     const existing = await Retailer.findOne({
@@ -69,9 +101,26 @@ async function getRetailers(req, res) {
     const skip = (page - 1) * limit;
 
     const filter = {};
-    if (req.query.businessType) filter.businessType = req.query.businessType;
-    if (req.query.ownerId && mongoose.Types.ObjectId.isValid(req.query.ownerId)) filter.ownerName = req.query.ownerId;
-    if (req.query.q) filter.shopName = { $regex: req.query.q, $options: "i" };
+    
+    // Validate and apply businessType filter
+    if (req.query.businessType) {
+      const validBusinessTypes = ["Grocery", "Bakery", "Salon", "Mobile", "Electronics", "Clothing", "Other"];
+      if (validBusinessTypes.includes(req.query.businessType)) {
+        filter.businessType = req.query.businessType;
+      }
+    }
+    
+    // Validate and apply owner filter
+    if (req.query.ownerId) {
+      if (mongoose.Types.ObjectId.isValid(req.query.ownerId)) {
+        filter.ownerName = req.query.ownerId;
+      }
+    }
+    
+    // Apply search filter for shop name
+    if (req.query.q && req.query.q.trim()) {
+      filter.shopName = { $regex: req.query.q.trim(), $options: "i" };
+    }
 
     const [items, total] = await Promise.all([
       Retailer.find(filter)
@@ -127,24 +176,37 @@ async function updateRetailer(req, res) {
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: "Invalid id." });
 
     const updates = { ...req.body };
-    if (updates.ownerName && !mongoose.Types.ObjectId.isValid(updates.ownerName)) {
-      return res.status(400).json({ message: "Invalid owner id." });
-    }
+    // Validate owner ID if being updated
     if (updates.ownerName) {
+      if (!mongoose.Types.ObjectId.isValid(updates.ownerName)) {
+        return res.status(400).json({ message: "Invalid owner ID format." });
+      }
+      
       const owner = await User.findById(updates.ownerName);
-      if (!owner) return res.status(404).json({ message: "Owner user not found." });
+      if (!owner) {
+        return res.status(404).json({ message: "Owner user not found." });
+      }
+      
+      if (owner.role !== "retailer") {
+        return res.status(400).json({ message: "User must have retailer role to own a shop." });
+      }
     }
 
     // prevent updating to duplicate shopName or retailerCode
     if (updates.shopName || updates.retailerCode) {
-      const conflict = await Retailer.findOne({
-        _id: { $ne: id },
-        $or: [
-          updates.shopName ? { shopName: updates.shopName } : null,
-          updates.retailerCode ? { retailerCode: updates.retailerCode } : null,
-        ].filter(Boolean),
-      });
-      if (conflict) return res.status(409).json({ message: "Another retailer with same shopName or retailerCode exists." });
+      const orConditions = [];
+      if (updates.shopName) orConditions.push({ shopName: updates.shopName });
+      if (updates.retailerCode) orConditions.push({ retailerCode: updates.retailerCode });
+      
+      if (orConditions.length > 0) {
+        const conflict = await Retailer.findOne({
+          _id: { $ne: id },
+          $or: orConditions,
+        });
+        if (conflict) {
+          return res.status(409).json({ message: "Another retailer with same shopName or retailerCode exists." });
+        }
+      }
     }
 
     const updated = await Retailer.findByIdAndUpdate(id, updates, { new: true })
