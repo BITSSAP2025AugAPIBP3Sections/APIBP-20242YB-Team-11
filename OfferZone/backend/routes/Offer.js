@@ -18,4 +18,10 @@ router.put("/:id", protect, authorize("retailer"), updateOffer);
 router.delete("/:id", protect, authorize("retailer"), deleteOffer);
 router.get("/mine", protect, authorize("retailer"), getMyOffers);
 
+// Public routes
+router.get("/", getAllOffers);
+router.get("/filter", getOffersByFilter);
+router.get("/search", searchOffers);
+router.get("/:id", getOfferById);
+
 module.exports = router;
