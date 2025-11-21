@@ -1,0 +1,64 @@
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 16:45:49"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 16:45:50"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 16:46:58"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 16:46:59"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 16:47:22"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 16:47:22"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 16:47:25"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 16:47:26"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 16:47:48"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 16:47:48"}
+{"level":"info","message":"::1 - - [21/Nov/2025:11:17:52 +0000] \"GET /api-docs/ HTTP/1.1\" 304 - \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-11-21 16:47:52"}
+{"level":"info","message":"::1 - - [21/Nov/2025:11:17:52 +0000] \"GET /api-docs/swagger-ui.css HTTP/1.1\" 304 - \"http://localhost:8000/api-docs/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-11-21 16:47:52"}
+{"level":"info","message":"::1 - - [21/Nov/2025:11:17:52 +0000] \"GET /api-docs/swagger-ui-standalone-preset.js HTTP/1.1\" 304 - \"http://localhost:8000/api-docs/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-11-21 16:47:52"}
+{"level":"info","message":"::1 - - [21/Nov/2025:11:17:52 +0000] \"GET /api-docs/swagger-ui-bundle.js HTTP/1.1\" 304 - \"http://localhost:8000/api-docs/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-11-21 16:47:52"}
+{"level":"info","message":"::1 - - [21/Nov/2025:11:17:52 +0000] \"GET /api-docs/swagger-ui-init.js HTTP/1.1\" 304 - \"http://localhost:8000/api-docs/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-11-21 16:47:52"}
+{"level":"info","message":"::1 - - [21/Nov/2025:11:17:52 +0000] \"GET /api-docs/favicon-32x32.png HTTP/1.1\" 304 - \"http://localhost:8000/api-docs/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-11-21 16:47:52"}
+{"body":{"email":"belal@gmail.com","name":"Belal","password":"pass","role":"retailer"},"level":"info","message":"Signup attempt","timestamp":"2025-11-21 16:48:15"}
+{"level":"info","message":"Signup successful","role":"retailer","timestamp":"2025-11-21 16:48:15","userId":"69204a775b6e5ed2757226d9"}
+{"level":"info","message":"::1 - - [21/Nov/2025:11:18:15 +0000] \"POST /offerzone/auth HTTP/1.1\" 201 386 \"http://localhost:8000/api-docs/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-11-21 16:48:15"}
+{"email":"belal@gmail.com","level":"info","message":"Login attempt","timestamp":"2025-11-21 16:48:38"}
+{"level":"info","message":"Login successful","role":"retailer","timestamp":"2025-11-21 16:48:38","userId":"69204a775b6e5ed2757226d9"}
+{"level":"info","message":"::1 - - [21/Nov/2025:11:18:38 +0000] \"POST /offerzone/auth/session HTTP/1.1\" 200 385 \"http://localhost:8000/api-docs/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-11-21 16:48:38"}
+{"body":{"area":"Koramangala","brand":"Phillips","category":"Technology","city":"Bengaluru","description":"Phillips air fryer","image":"https://www.imageplaceholder.com","name":"Air fryer","price":10000},"level":"info","message":"Creating new product","timestamp":"2025-11-21 16:50:08","user":"69204a775b6e5ed2757226d9"}
+{"level":"info","message":"Product created successfully","productId":"69204ae85b6e5ed2757226dd","timestamp":"2025-11-21 16:50:08"}
+{"level":"info","message":"::1 - - [21/Nov/2025:11:20:08 +0000] \"POST /offerzone/products HTTP/1.1\" 201 407 \"http://localhost:8000/api-docs/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-11-21 16:50:08"}
+{"body":{"area":"Koramangala","city":"Bengaluru","description":"50% off on phillips air fryer","discountPercent":50,"isPremium":true,"offerPrice":5000,"originalPrice":100000,"product":"69204ae85b6e5ed2757226dd","title":"Discount on phillips air fryer","validFrom":"2025-11-21","validTill":"2025-11-21"},"level":"info","message":"Creating a new offer","timestamp":"2025-11-21 16:51:14","user":"69204a775b6e5ed2757226d9"}
+{"level":"info","message":"Offer created successfully","offerId":"69204b2a5b6e5ed2757226e0","timestamp":"2025-11-21 16:51:14"}
+{"level":"info","message":"::1 - - [21/Nov/2025:11:21:14 +0000] \"POST /offerzone/offers HTTP/1.1\" 201 530 \"http://localhost:8000/api-docs/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-11-21 16:51:14"}
+{"level":"info","message":"Fetching all offers","query":{"brand":"phillips","limit":"10","page":"1"},"timestamp":"2025-11-21 16:51:28"}
+{"level":"info","message":"Product filters applied","productFilters":{"brand":{}},"timestamp":"2025-11-21 16:51:28"}
+{"filters":{"product":{"$in":["69204ae85b6e5ed2757226dd"]}},"level":"info","message":"Offers fetched successfully","returned":1,"timestamp":"2025-11-21 16:51:28","total":1}
+{"level":"info","message":"::1 - - [21/Nov/2025:11:21:28 +0000] \"GET /offerzone/offers?brand=phillips&page=1&limit=10 HTTP/1.1\" 200 670 \"http://localhost:8000/api-docs/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-11-21 16:51:28"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:04:08"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 17:04:09"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:04:34"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 17:04:35"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:04:46"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 17:04:47"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:04:58"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 17:04:58"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:05:10"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:05:11"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 17:05:11"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:05:14"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 17:05:15"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:11:24"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 17:11:25"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:11:46"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 17:11:47"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:14:37"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 17:14:38"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:15:21"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 17:15:21"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:15:43"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 17:15:43"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:17:41"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 17:17:42"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:18:28"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 17:18:29"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [21/Nov/2025:11:48:58 +0000] \"POST /graphql HTTP/1.1\" 200 39 \"-\" \"Thunder Client (https://www.thunderclient.com)\"","timestamp":"2025-11-21 17:18:58"}
+{"level":"info","message":"Server started on port 8000","timestamp":"2025-11-21 17:19:54"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2025-11-21 17:19:55"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [21/Nov/2025:11:50:07 +0000] \"POST /graphql HTTP/1.1\" 200 773 \"-\" \"Thunder Client (https://www.thunderclient.com)\"","timestamp":"2025-11-21 17:20:07"}
+{"level":"error","message":"Unhandled API Error Expected property name or '}' in JSON at position 20","route":"/graphql","stack":"SyntaxError: Expected property name or '}' in JSON at position 20\n    at JSON.parse (<anonymous>)\n    at parse (/Users/I528996/Desktop/offerzone/node_modules/body-parser/lib/types/json.js:77:19)\n    at /Users/I528996/Desktop/offerzone/node_modules/body-parser/lib/read.js:123:18\n    at AsyncResource.runInAsyncScope (node:async_hooks:206:9)\n    at invokeCallback (/Users/I528996/Desktop/offerzone/node_modules/raw-body/index.js:238:16)\n    at done (/Users/I528996/Desktop/offerzone/node_modules/raw-body/index.js:227:7)\n    at IncomingMessage.onEnd (/Users/I528996/Desktop/offerzone/node_modules/raw-body/index.js:287:7)\n    at IncomingMessage.emit (node:events:519:28)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)","timestamp":"2025-11-21 17:27:10"}

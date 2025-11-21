@@ -1,0 +1,408 @@
+openapi: 3.0.3
+info:
+  title: OfferZone API
+  version: 1.0.0
+  description: >
+    OfferZone is a multi-role offer listing platform.
+    - Customers can view offers by city, area, category, brand, or product.
+    - Retailers can add, update, and delete products and offers.
+
+servers:
+  - url: http://localhost:8000/offerzone
+    description: Local development server
+
+tags:
+  - name: Authentication
+    description: Retailer and Customer authentication
+  - name: Products
+    description: Product management for retailers
+  - name: Offers
+    description: Offer management and filtering
+
+paths:
+
+  #########################################
+  # AUTHENTICATION
+  #########################################
+
+  /auth:
+    post:
+      tags: [Authentication]
+      summary: Signup (Customer or Retailer)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password, role]
+              properties:
+                name: { type: string }
+                email: { type: string }
+                password: { type: string }
+                role:
+                  type: string
+                  enum: [customer, retailer]
+      responses:
+        '201': { description: User created }
+        '400': { description: Invalid or missing fields }
+
+  /auth/session:
+    post:
+      tags: [Authentication]
+      summary: Login (Customer or Retailer)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string }
+                password: { type: string }
+      responses:
+        '200': { description: Login successful }
+        '401': { description: Invalid credentials }
+
+  /auth/me:
+    get:
+      tags: [Authentication]
+      summary: Get current user details
+      security:
+        - bearerAuth: []
+      responses:
+        '200': { description: Authenticated user profile }
+        '401': { description: Missing or invalid token }
+
+  #########################################
+  # PRODUCTS
+  #########################################
+
+  /products:
+    post:
+      tags: [Products]
+      summary: Add a new product
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201': { description: Product created }
+
+    get:
+      tags: [Products]
+      summary: Get products with filters, sorting, and pagination
+      parameters:
+        - name: city
+          in: query
+          schema: { type: string }
+        - name: area
+          in: query
+          schema: { type: string }
+        - name: category
+          in: query
+          schema: { type: string }
+        - name: brand
+          in: query
+          schema: { type: string }
+        - name: minPrice
+          in: query
+          schema: { type: number }
+        - name: maxPrice
+          in: query
+          schema: { type: number }
+        - name: search
+          in: query
+          schema: { type: string }
+        - name: sort
+          in: query
+          description: |
+            Sort by fields. Examples:
+            - sort=price
+            - sort=-price
+            - sort=createdAt
+            - sort=price,-createdAt
+          schema: { type: string }
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 10 }
+      responses:
+        '200':
+          description: Paginated, sorted & filtered products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  count: { type: integer }
+                  total: { type: integer }
+                  page: { type: integer }
+                  totalPages: { type: integer }
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+
+  /products/{id}:
+    get:
+      tags: [Products]
+      summary: Get a product by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Product found }
+        '404': { description: Not found }
+
+    put:
+      tags: [Products]
+      summary: Update product
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Product' }
+      responses:
+        '200': { description: Product updated }
+
+    delete:
+      tags: [Products]
+      summary: Delete product
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Product deleted }
+
+  #########################################
+  # OFFERS
+  #########################################
+
+  /offers:
+    post:
+      tags: [Offers]
+      summary: Create offer
+      security: [ { bearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Offer'
+      responses:
+        '201': { description: Offer created }
+
+    get:
+      tags: [Offers]
+      summary: Get offers with filters, sorting & pagination
+      parameters:
+        - name: city
+          in: query
+          schema: { type: string }
+        - name: area
+          in: query
+          schema: { type: string }
+        - name: category
+          in: query
+          schema: { type: string }
+        - name: brand
+          in: query
+          schema: { type: string }
+        - name: product
+          in: query
+          schema: { type: string }
+        - name: sort
+          in: query
+          description: Sorting field
+          schema: { type: string }
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 10 }
+      responses:
+        '200': { description: Paginated list of offers }
+
+  /offers/filter:
+    get:
+      tags: [Offers]
+      summary: Filter offers (advanced filters)
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema: { type: string }
+        - name: area
+          in: query
+          schema: { type: string }
+        - name: category
+          in: query
+          schema: { type: string }
+        - name: brand
+          in: query
+          schema: { type: string }
+        - name: product
+          in: query
+          schema: { type: string }
+        - name: sort
+          in: query
+          schema: { type: string }
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 10 }
+      responses:
+        '200': { description: Filtered offers list }
+        '404': { description: No offers found }
+
+  /offers/search/{city}/{query}:
+    get:
+      tags: [Offers]
+      summary: Search offers by keyword
+      parameters:
+        - name: city
+          in: path
+          required: true
+          schema: { type: string }
+        - name: query
+          in: path
+          required: true
+          schema: { type: string }
+        - name: area
+          in: query
+          schema: { type: string }
+        - name: sort
+          in: query
+          schema: { type: string }
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 10 }
+      responses:
+        '200': { description: Search results }
+
+  /offers/mine:
+    get:
+      tags: [Offers]
+      summary: Get offers created by current retailer
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '200': { description: My offers }
+
+  /offers/{id}:
+    get:
+      tags: [Offers]
+      summary: Get offer by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Offer found }
+        '404': { description: Not found }
+
+    put:
+      tags: [Offers]
+      summary: Update offer
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Offer' }
+      responses:
+        '200': { description: Offer updated }
+
+    delete:
+      tags: [Offers]
+      summary: Delete offer
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Offer deleted }
+
+#########################################
+# COMPONENTS
+#########################################
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    Product:
+      type: object
+      required: [name, brand, category, price, city, area]
+      properties:
+        name: { type: string }
+        brand: { type: string }
+        category: { type: string }
+        description: { type: string }
+        price: { type: number }
+        city: { type: string }
+        area: { type: string }
+        image: { type: string }
+
+    Offer:
+      type: object
+      required:
+        - product
+        - title
+        - discountPercent
+        - originalPrice
+        - offerPrice
+        - city
+        - area
+        - validFrom
+        - validTill
+      properties:
+        product: { type: string }
+        title: { type: string }
+        description: { type: string }
+        discountPercent: { type: number }
+        originalPrice: { type: number }
+        offerPrice: { type: number }
+        validFrom: { type: string, format: date }
+        validTill: { type: string, format: date }
+        city: { type: string }
+        area: { type: string }
+        isPremium: { type: boolean }
