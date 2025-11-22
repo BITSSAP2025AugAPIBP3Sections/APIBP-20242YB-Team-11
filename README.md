@@ -26,7 +26,7 @@ Consumers want the assurance of offline shopping—where they can touch, feel, a
 
 ## Backend  
 
-- Handles business logic and communicates with a MYSQL database.  
+- Handles business logic and communicates with a MongoDB database.  
 - Exposes REST APIs for user, retailer, and offer management.  
 - Supports event-driven communication for notifications and alerts.  
 - Implements transactional outbox for reliable domain event publishing.  
