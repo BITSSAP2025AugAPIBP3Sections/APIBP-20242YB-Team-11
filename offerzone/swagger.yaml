@@ -244,41 +244,6 @@ paths:
       responses:
         '200': { description: Paginated list of offers }
 
-  /offers/filter:
-    get:
-      tags: [Offers]
-      summary: Filter offers (advanced filters)
-      parameters:
-        - name: city
-          in: query
-          required: true
-          schema: { type: string }
-        - name: area
-          in: query
-          schema: { type: string }
-        - name: category
-          in: query
-          schema: { type: string }
-        - name: brand
-          in: query
-          schema: { type: string }
-        - name: product
-          in: query
-          schema: { type: string }
-        - name: sort
-          in: query
-          schema: { type: string }
-        - name: page
-          in: query
-          schema: { type: integer, default: 1 }
-        - name: limit
-          in: query
-          schema: { type: integer, default: 10 }
-      responses:
-        '200': { description: Filtered offers list }
-        '404': { description: No offers found }
-
-  /offers/search/{city}/{query}:
     get:
       tags: [Offers]
       summary: Search offers by keyword
