@@ -46,7 +46,7 @@ const yoga = createYoga({
   },
 });
 
-app.use("/api/v1/graphql", yoga);
+app.use("/graphql", yoga);
 
 // MongoDB connection
 mongoose
