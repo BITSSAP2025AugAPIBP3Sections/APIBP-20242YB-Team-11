@@ -46,7 +46,7 @@ const yoga = createYoga({
   },
 });
 
-app.use("/graphql", yoga);
+app.use("/api/v1/graphql", yoga);
 
 // MongoDB connection
 mongoose
@@ -60,19 +60,19 @@ mongoose
     logger.error("MongoDB connection error", { error: err.message });
   });
 
-app.get("/", (req, res) => {
+app.get("/api/v1/", (req, res) => {
   res.send("Welcome to OfferZone API");
   logger.info("Root endpoint accessed");
 });
 
 // API Routes
-app.use("/offerzone/auth", userRoutes);
-app.use("/offerzone/products", productRoutes);
-app.use("/offerzone/offers", offerRoutes);
+app.use("/api/v1/offerzone/auth", userRoutes);
+app.use("/api/v1/offerzone/products", productRoutes);
+app.use("/api/v1/offerzone/offers", offerRoutes);
 
 // Swagger
 const swaggerDocument = YAML.load("./swagger.yaml");
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api/v1/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Global Error Handler
 app.use((err, req, res, next) => {
