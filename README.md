@@ -1,5 +1,10 @@
 # OfferZone
 
+[![License](https://img.shields.io/github/license/BITSSAP2025AugAPIBP3Sections/APIBP-20242YB-Team-11)](LICENSE)
+[![Contributors](https://img.shields.io/github/contributors/BITSSAP2025AugAPIBP3Sections/APIBP-20242YB-Team-11?label=contributors)](https://github.com/BITSSAP2025AugAPIBP3Sections/APIBP-20242YB-Team-11/graphs/contributors)
+[![Open Issues](https://img.shields.io/github/issues/BITSSAP2025AugAPIBP3Sections/APIBP-20242YB-Team-11)](https://github.com/BITSSAP2025AugAPIBP3Sections/APIBP-20242YB-Team-11/issues)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/BITSSAP2025AugAPIBP3Sections/APIBP-20242YB-Team-11/pulls)
+
 OfferZone is an example Node.js REST API that demonstrates managing Products, Offers, and Users. This repository is prepared for open-source collaboration and distributed under the MIT License.
 
 Project goals:
