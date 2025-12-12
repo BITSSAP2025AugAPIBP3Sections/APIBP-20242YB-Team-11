@@ -1,6 +1,6 @@
 # OfferZone - An Open Source Project
 
-Welcome to the **APIBP-20242YB-Team-11** open-source repository!  
+Welcome to the **OfferZone** open-source repository!  
 
 This project is built as part of the BITSSAP 2025 API & Back-End Programming course, focusing on modern backend engineering practices including API development, database integration, and secure scalable architecture.
 
@@ -28,6 +28,7 @@ This project is built as part of the BITSSAP 2025 API & Back-End Programming cou
 ### 1️⃣ Clone the repository
 
 git clone https://github.com/BITSSAP2025AugAPIBP3Sections/APIBP-20242YB-Team-11.git
+
 cd APIBP-20242YB-Team-11
 
 # Project Title – OfferZone: Local Retailer Deal Discovery Platform  
