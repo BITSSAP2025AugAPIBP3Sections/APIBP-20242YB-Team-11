@@ -1,3 +1,131 @@
+# OfferZone
+
+OfferZone is an example Node.js REST API that demonstrates managing Products, Offers, and Users. This repository is prepared for open-source collaboration and distributed under the MIT License.
+
+Project goals:
+- Provide a clear, modular Express-based API example
+- Demonstrate authentication, role-based authorization, and basic CRUD
+- Expose an OpenAPI spec (`swagger.yaml`) and a GraphQL endpoint
+
+Status: Active — contributions welcome. See `CONTRIBUTING.md`.
+
+---
+
+Table of contents
+- Overview
+- Quick start
+- Scripts & environment
+- API surface (short)
+- GraphQL
+- Development
+- Contributing
+- Security
+- Maintainers & support
+- License
+
+## Overview
+
+OfferZone contains an Express server (`offerzone/index.js`) and the following key modules:
+
+- `routes/` — HTTP routes for users, products, and offers
+- `controllers/` — controller logic for routes
+- `models/` — Mongoose models for persistence
+- `middleware/` — authentication and authorization
+- `graphql/` — GraphQL schema and resolvers
+- `swagger.yaml` — OpenAPI v3 specification for the REST API
+
+This project uses MongoDB via Mongoose. Environment variables are used to configure the database and secrets.
+
+## Quick start
+
+Prerequisites
+- Node.js 14 or newer
+- npm (or yarn)
+- MongoDB (local or cloud)
+
+Install and run locally
+
+```bash
+git clone https://github.com/BITSSAP2025AugAPIBP3Sections/APIBP-20242YB-Team-11.git
+cd APIBP-20242YB-Team-11/offerzone
+npm install
+
+# Development server (auto-restart):
+npm run dev
+
+# Production start:
+npm start
+```
+
+The server listens on `process.env.PORT` (default 8080). Swagger UI is available at `http://localhost:8080/api-docs`.
+
+## Scripts & environment
+
+package scripts (in `offerzone/package.json`)
+- `npm start` — start production server
+- `npm run dev` — start with `nodemon` for development
+
+Important environment variables (set in a `.env` file or CI):
+- `PORT` — port for the HTTP server (default 8080)
+- `MONGODB_URI` — MongoDB connection string (required for runtime)
+- `JWT_SECRET` — secret used to sign JWTs for auth
+
+Note: Please add your contact email for security and maintainers in `SECURITY.md` and `MAINTAINERS.md` (placeholders exist). I cannot add private addresses on your behalf.
+
+## API surface (short)
+
+Base REST prefixes (as implemented in `index.js`):
+- `GET /` — health / welcome
+- `POST /offerzone/auth` — user signup
+- `POST /offerzone/auth/session` — login (returns JWT)
+- `GET /offerzone/auth/me` — authenticated current user
+- `GET /offerzone/products` — list products
+- `POST /offerzone/products` — create product (retailer only)
+- `GET /offerzone/products/mine` — retailer's products (retailer only)
+- `GET /offerzone/products/:id` — product details
+- `GET /offerzone/offers` — list offers
+- `GET /offerzone/offers/filter` — filtered offers
+- `GET /offerzone/offers/search/:city/:query` — search offers
+- `GET /offerzone/offers/:id` — offer details
+- `POST /offerzone/offers` — create offer (retailer only)
+
+Authorization
+- Endpoints that modify resources require a `Bearer <token>` Authorization header. Tokens are issued by the login route.
+
+## GraphQL
+
+GraphQL is exposed at `/graphql`. The schema and resolvers are in `offerzone/graphql/schema.js`. The GraphQL server is configured to include a `user` in the context when a valid bearer token is present.
+
+## Development
+
+- Follow the branch and PR workflow in `CONTRIBUTING.md`.
+- Keep changes small and document API updates in `swagger.yaml`.
+- Add tests and CI for new features.
+
+Recommended next steps (optional)
+- Add ESLint and Prettier configuration
+- Add a GitHub Actions workflow to run tests and lint on PRs
+- Add integration tests that run against an ephemeral MongoDB (e.g., via GitHub Actions)
+
+## Contributing
+
+We welcome contributions. See `CONTRIBUTING.md`, issue templates, and the PR template in `.github/`.
+
+## Security
+
+Do not file security issues publicly. Follow `SECURITY.md` to report vulnerabilities privately. Replace the placeholder security contact email in `SECURITY.md` with a real address before publishing.
+
+## Maintainers & support
+
+See `MAINTAINERS.md` and `SUPPORT.md` for maintainers and recommended support channels. Please add personal contact emails in `MAINTAINERS.md` if you want maintainers listed with email contact.
+
+## License
+
+This repository uses the MIT License. See `LICENSE` for the full text.
+
+---
+
+If you'd like, I can add CI workflow files and ESLint/Prettier configs next. Also, tell me the contact email you want in `SECURITY.md` and `MAINTAINERS.md` and I will add them for you.
 # OfferZone - An Open Source Project
 
 Welcome to the **OfferZone** open-source repository!  
@@ -8,95 +136,106 @@ This project is built as part of the BITSSAP 2025 API & Back-End Programming cou
 
 ## 🚀 Features
 - RESTful API implementation
-- Modular & scalable project structure
-- Secure endpoints (JWT / API Key support if applicable)
-- Error handling & validation best practices
-- Fully open-source and community-maintained
+# OfferZone
+
+OfferZone is a sample Node.js REST API for managing products, offers, and users. This repository is prepared to be an open source project under the MIT License and is ready for community contributions.
+
+**Quick facts**
+- **Language:** JavaScript (Node.js)
+- **Framework:** Express.js
+- **API Spec:** `swagger.yaml` (OpenAPI)
+- **License:** MIT
 
 ---
 
-## 📦 Tech Stack
-- **Language:** Javascript
-- **Framework:** Express.js  
-- **Build Tool:** Gradle / Maven  
-- **Database:** MySQL / PostgreSQL  
-- **Version Control:** Git & GitHub  
+**Status:** Active — contributions welcome. See `CONTRIBUTING.md` for how to help.
 
----
+## Table of Contents
+- Project Overview
+- Getting Started
+- Development
+- API
+- Contributing
+- Code of Conduct
+- Security
+- Support
+- License
 
+## Project Overview
 
-### 1️⃣ Clone the repository
+OfferZone provides endpoints to manage Products, Offers, and Users. It can serve as a learning example or a starting point for a small e-commerce promotions service focusing on discoverability of local offers.
 
+Key project files and folders:
+
+- `index.js` — application entry point
+- `package.json` — dependencies & scripts
+- `swagger.yaml` — API specification (OpenAPI)
+- `controllers/`, `models/`, `routes/` — app modules
+- `middleware/` — middleware (e.g., auth)
+
+## Getting Started
+
+Prerequisites:
+
+- Node.js 14+ (LTS recommended)
+- npm or yarn
+
+Clone the repo and install dependencies:
+
+```bash
 git clone https://github.com/BITSSAP2025AugAPIBP3Sections/APIBP-20242YB-Team-11.git
+cd APIBP-20242YB-Team-11/offerzone
+npm install
+```
 
-cd APIBP-20242YB-Team-11
+Run the app (development):
 
-# Project Title – OfferZone: Local Retailer Deal Discovery Platform  
+```bash
+npm start
+```
 
+By default the server listens on the port configured in `index.js` or `process.env.PORT`.
 
-## Description  
-OfferZone is a digital platform designed to connect local retailers with consumers by showcasing offline  offers. It enables retailers to register business accounts, publish deals, and reach nearby shoppers, while consumers can explore location-based discounts and enjoy both local and major online festival sales. The platform focuses on delivering a user-friendly interface that fosters trust and strong connections between retailers and customers. 
+To run tests (if added):
 
-## Problem Statement
-In today’s digital era, consumers are highly informed about online deals, but offline shopping experiences often lack visibility of local offers. Local retailers struggle to reach nearby customers effectively, while consumers miss out on discounts and promotions available in their own neighborhoods.
+```bash
+npm test
+```
 
-Existing platforms primarily focus on online marketplaces, leaving a gap for local, offline-centric deal discovery. Retailers need a simple way to showcase their offers digitally without heavy technical or marketing investments, and consumers need a reliable platform to find the best nearby deals quickly.
+## Development
 
-## The Gap
+- Create branches using `feat/`, `fix/`, `chore/` prefixes.
+- Keep changes small and focused; write tests for new behavior.
+- Update `swagger.yaml` for any HTTP API changes.
 
-Consumers want the assurance of offline shopping—where they can touch, feel, and instantly own the product—combined with the convenience and visibility of digital offers. Retailers need a platform that gives them a voice in the digital space without losing their local identity and personal customer relationships.
+### Linting & Formatting
 
+Add ESLint/Prettier configs and CI in future contributions. Follow existing code style when modifying code.
 
-## Our Vision with OfferZone
+## API
 
- - OfferZone bridges this gap by:
- - Helping retailers digitally showcase in-store offers to nearby customers.
- - Allowing consumers to enjoy offline shopping experiences with better visibility of discounts in their area.
- - Building a trust-driven ecosystem where great local deals meet genuine offline shopping satisfaction.
+The API is described in `swagger.yaml`. Use that to generate clients, run interactive docs, or validate endpoints.
 
+## Contributing
 
- 
+We welcome contributions — small to large. Please read `CONTRIBUTING.md` and follow the PR template when opening changes.
 
-## Backend  
+## Code of Conduct
 
-- Handles business logic and communicates with a NoSQL database.  
-- Exposes REST APIs for user, retailer, and offer management.  
-- Supports event-driven communication for notifications and alerts.  
-- Implements transactional outbox for reliable domain event publishing.  
-- Provides scalability with caching, message queues, and geospatial queries.  
+This project adopts the Contributor Covenant. See `CODE_OF_CONDUCT.md` for details.
 
+## Security
 
-## Core Features  
+If you find a security issue, do not open a public issue. Follow `SECURITY.md` to report privately.
 
-### Consumer  
-- Discover offers based on location, category, and preferences.  
-- Set or update city/area to receive localized deals.  
-- View offer details, expiry, and retailer information.  
+## Support
 
-### Retailer  
-- Register as a business and create offers.  
-- Upload product/offer images and assign categories.  
-- Manage, edit, or delete existing offers.  
+If you need help using OfferZone, check `SUPPORT.md` for available channels.
 
-### Administrator  
-- Approve or reject retailer registrations.  
-- Manage consumer and retailer accounts.  
-- Ensure platform security and smooth operations.  
+## License
 
-### System-Wide  
-- Role-based access and secure authentication.  
-- Notifications and alerts for deals and expiries.  
-- Event-driven architecture for synchronization.  
-- Backend-for-Frontend (BFF) layer for web, mobile, and admin interfaces.  
+This repository is licensed under the MIT License — see the `LICENSE` file.
 
-## Tech Stack  
-- **Frontend:** React.js (Single Page Application for fast UI experience).  
-- **Backend:** Node.js and Express for REST APIs.  
-- **Database:** MongoDB.  
+---
 
-## Team Members  
-- Bhaskar Kulshrestha – 93066 – @BhaskarKulshrestha 
-- Aditi Rai - 93096 - @Aditi-Rai 
-- Kunal Thakur - 93065 - @kunalthakur-01 
--  Sikta Laha - 93106 - @Laha93 
-- Mohd Belal Naim - 93027 - @MohdBelalNaim 
+If you'd like, I can add CI, linters, or example deployment instructions next.
