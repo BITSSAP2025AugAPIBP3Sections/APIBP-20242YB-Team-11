@@ -1,6 +1,7 @@
-# APIBP 20242 YB – Team 11 Project
+# OfferZone - An Open Source Project
 
 Welcome to the **APIBP-20242YB-Team-11** open-source repository!  
+
 This project is built as part of the BITSSAP 2025 API & Back-End Programming course, focusing on modern backend engineering practices including API development, database integration, and secure scalable architecture.
 
 ---
