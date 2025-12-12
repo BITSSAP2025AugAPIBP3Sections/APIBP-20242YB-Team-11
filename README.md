@@ -1,3 +1,34 @@
+# APIBP 20242 YB – Team 11 Project
+
+Welcome to the **APIBP-20242YB-Team-11** open-source repository!  
+This project is built as part of the BITSSAP 2025 API & Back-End Programming course, focusing on modern backend engineering practices including API development, database integration, and secure scalable architecture.
+
+---
+
+## 🚀 Features
+- RESTful API implementation
+- Modular & scalable project structure
+- Secure endpoints (JWT / API Key support if applicable)
+- Error handling & validation best practices
+- Fully open-source and community-maintained
+
+---
+
+## 📦 Tech Stack
+- **Language:** Javascript
+- **Framework:** Express.js  
+- **Build Tool:** Gradle / Maven  
+- **Database:** MySQL / PostgreSQL  
+- **Version Control:** Git & GitHub  
+
+---
+
+
+### 1️⃣ Clone the repository
+
+git clone https://github.com/BITSSAP2025AugAPIBP3Sections/APIBP-20242YB-Team-11.git
+cd APIBP-20242YB-Team-11
+
 # Project Title – OfferZone: Local Retailer Deal Discovery Platform  
 
 
