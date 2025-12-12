@@ -8,7 +8,7 @@ info:
     - Retailers can add, update, and delete products and offers.
 
 servers:
-  - url: http://localhost:8000/offerzone
+  - url: http://localhost:8000/api/v1/offerzone
     description: Local development server
 
 tags:
