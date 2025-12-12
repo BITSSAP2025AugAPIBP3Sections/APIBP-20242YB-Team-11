@@ -9,9 +9,7 @@ Primary maintainers
 Secondary / rotating maintainers
 
 - Bhaskar Kulshrestha (@BhaskarKulshrestha)
-- Sikta Laha (@Laha93)
 - Mohd Belal Naim (@MohdBelalNaim)
-- Aditi Rai (@Aditi-Rai) — Co-lead
 
 Contact details
 
